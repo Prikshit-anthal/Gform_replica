@@ -6,6 +6,7 @@ var session = require("express-session");
 var morgan = require("morgan");
 //importing firebase
 var firebase = require("firebase/app");
+const { format } = require('path');
 require("firebase/firestore");
 require("firebase/app");
 const router = express.Router()
@@ -98,12 +99,15 @@ router.get('/',redirectHome,(req,res)=>{
   if(userId)
   window.location.href="/form";
   else
-   res.render('data');
-    
-
+   res.render('data',{
+     style:'data.css'
+   });
 })
+
 router.get('/form',redirectLogin,(req,res)=>{
-    res.render('form')
+    res.render('form',{
+      style:'form.css'
+    });
 })
 
 router.post('/',redirectHome,(req,res)=>{
