@@ -109,6 +109,12 @@ router.get('/form',redirectLogin,(req,res)=>{
       style:'form.css'
     });
 })
+router.get('/newForm',redirectLogin,(req,res)=>{
+  res.render('createNew',{
+    style:'newForm.css'
+  });
+})
+
 
 router.post('/',redirectHome,(req,res)=>{
   const {name,password}=req.body;
