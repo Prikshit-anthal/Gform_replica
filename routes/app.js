@@ -30,24 +30,31 @@ db.settings({timestampsInSnapshots: true});
 
 //retrieve
 var user_n, pass,users=[{id:null,name:null,password:null}];
-db.collection("admin").get().then((querySnapshot) => {
-querySnapshot.forEach((doc) => {
-  user_n = doc.data().username,
-    pass = doc.data().password;
-    console.log("imsorry");
-    console.log(user_n,pass);
+// db.collection("admin").get().then((querySnapshot) => {
+// querySnapshot.forEach((doc) => {
+//   user_n = doc.data().username,
+//     pass = doc.data().password;
+//     console.log("imsorry");
+//     console.log(user_n,pass);
 
-  //  const users=[{
-  //   id:1,
-  //  name:user_n,
-  //  password:pass,
-  //  }]
-  users[0].id=1;
+  
+//   users[0].id=1;
+//   users[0].name=user_n;
+//   users[0].password=pass;
+
+// });
+// });
+var docRef=db.collection('admin').doc('D3yNdD3ohBc0SmNQYuNK').collection('credentials').onSnapshot((querySnapshot)=>{
+  querySnapshot.forEach((doc) => {
+  user_n = doc.data().username,
+     pass = doc.data().password;
+     console.log(user_n,pass);
+     users[0].id=1;
   users[0].name=user_n;
   users[0].password=pass;
+});});
 
-});
-});
+
 //putting
 
 
