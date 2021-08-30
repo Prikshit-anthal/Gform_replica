@@ -15,8 +15,8 @@
       <i class="fa fa-file ic" aria-hidden="true" id="fileUpload"></i>
     </div>
   
-    <div id="main">
-      <div class="box" >
+    <form id="main">
+     {{!--  <div class="box" >
         <input type="text" placeholder="Question">
         <div class="sample-text">
           Upload a file
@@ -35,13 +35,14 @@
           </div>
           <div class="delete"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
         </div>
-      </div>
-    </div>
-   
-    <div class="result">
-      <div class="create-button">Create</div>
+      </div> --}}
+       
+    </form> 
+   <div class="result">
+      <div class="create-button" id="submit_form">Create</div>
       <div class="cancel-button">Cancel</div>
     </div>
+   
   </div>
 
   <script>
@@ -132,11 +133,12 @@ function setupToggles(){
 
 addParaQuestion.addEventListener('click',()=>{
   additional=document.createElement("div");
+  additional.className='textType';
   additional.innerHTML=`
-      <input type="text" placeholder="Question">
-      <div class="sample-text">
-        Type your answer here
-      </div>
+      <input type="text" placeholder="Question" />
+      <input type="text" class="sample-text" placeholder=" Type your answer here" />
+       
+      
       <div class="seperator">
 
       </div>
@@ -162,6 +164,7 @@ addParaQuestion.addEventListener('click',()=>{
 
 fileUploadQuestion.addEventListener('click',()=>{
   additional=document.createElement("div");
+  additional.className="uploadType";
   additional.innerHTML=`
     <input type="text" placeholder="Question">
     <div class="sample-text">
@@ -190,6 +193,7 @@ fileUploadQuestion.addEventListener('click',()=>{
 
 addMCQQuestion.addEventListener('click',()=>{
     additional = document.createElement("div");
+    additional.className="mcqType";
     additional.innerHTML=`
       <input  type="text" placeholder="Question">
       <div class="plus"><i class="fa fa-plus option" aria-hidden="true"></i></div>
@@ -245,5 +249,62 @@ let gayab=document.getElementsByClassName('indivisual');
 
 
 
+
+</script>
+
+<script>
+  const form=document.getElementById("main");
+  const button=document.querySelector("#submit_form");
+  var x=document.getElementsByClassName('form_title').firstChild;
+  var count =1;
+  button.addEventListener('click',
+  (e)=>{
+
+    
+    for(var child=form.firstChild; child!==null; child=child.nextSibling)
+    {  var temp=count+"_T";
+   // console.log(temp);
+      if(child.className=='textType box')
+      {  
+        //console.log(child.childNodes[3].className);
+       db.collection('admin').doc("hi").collection("hi").doc(temp).set({
+        
+         qs:child.childNodes[1].value,
+         ans:child.childNodes[3].value
+         
+       });
+      }
+      if(child.className=='mcqType box')
+      {  var num=1;
+         var l=[];
+        //for(var child1=child.childNodes[3].childNodes[num].childNodes[1]; child1!==null; child1=child.childNodes[3].childNodes[++num].childNodes[1])
+        //{console.log(child1.value);}
+        var n=0;
+        for(var num=1;child.childNodes[5].childNodes[num]!=null;num++)
+        {//console.log("hi"+child.childNodes[5].childNodes[num].childNodes[1].value);
+        l[n]=child.childNodes[5].childNodes[num].childNodes[1].value;
+        n++;
+          if(num==1)
+          num+=1;
+        }
+        //for(var oh=0;oh<num-2;oh++)
+        //console.log(l[oh]);
+        db.collection('admin').doc("hi").collection("hi").doc(temp).set({
+        
+        qs:child.childNodes[1].value,
+        op:l,
+         
+         
+       });
+
+      }
+
+       //console.log(child.className);
+       count++;
+      
+      
+    }
+  }
+  )
 
 </script>
