@@ -274,8 +274,12 @@
           //text type
         if (child.className == 'textType box') {
           var temp = count + "_T";
+          //for(var i=1;child.childNodes[7].childNodes[i]!=null;i++)
+         // console.log(child.childNodes[7].childNodes[5].childNodes[3].checked);
           db.collection('form').doc(title.value).collection("hi").doc(temp).set({
             qs: child.childNodes[1].value,
+            req:child.childNodes[7].childNodes[5].childNodes[3].checked
+            
           });
            count++;
         }
@@ -287,6 +291,7 @@
           var l = [];
 
           var n = 0;
+            
           for (var num = 1; child.childNodes[5].childNodes[num] != null; num++) {
           l[n] = child.childNodes[5].childNodes[num].childNodes[1].value;
           n++;
@@ -297,6 +302,7 @@
           db.collection('form').doc(title.value).collection("hi").doc(temp).set({
           qs: child.childNodes[1].value,
           op: l,
+          req:child.childNodes[9].childNodes[5].childNodes[3].checked
           });
           count++;
         }
@@ -304,9 +310,11 @@
          //upload file
         if (child.className == 'uploadType box') {
           var temp = count + "_U";
-          console.log(child.childNodes[1].value);
+        
+          //console.log(child.childNodes[1].value);
           db.collection('form').doc(title.value).collection("hi").doc(temp).set({
           qs: child.childNodes[1].value,
+          req:child.childNodes[7].childNodes[5].childNodes[3].checked
           });
             count++;
         }
