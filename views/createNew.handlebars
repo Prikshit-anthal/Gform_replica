@@ -1,3 +1,5 @@
+
+
 <div onload="doSetup()"></div>
 <div class="container">
   <div class="box form_title">
@@ -39,6 +41,7 @@
     </div> --}}
 
   </form>
+  
   <div class="result">
     <div class="create-button" id="submit_form">Create</div>
     <div class="cancel-button">Cancel</div>
@@ -148,8 +151,9 @@
         <div class="required">
           <span>Required</span>
           <input type="checkbox" id="switch" class="checkbox"  />
-          <label for="switch" class="toggle">
+          <label for="switch"  class="toggle" onclick="fn(this)" >
           <label class="toggleHelper"></label>
+         
         </label>
         </div>
         <div class="delete"><i class="fa fa-trash-o add" aria-hidden="true"></i></div>
@@ -178,9 +182,10 @@
       <button class="down" onclick="niche(parentNode.parentNode)"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
       <div class="required">
         <span>Required</span>
-        <input type="checkbox" id="switch" class="checkbox" />
-        <label for="switch" class="toggle">
+         <input type="checkbox" id="switch" class="checkbox"  />
+          <label for="switch"  class="toggle" onclick="fn(this)" >
         <label class="toggleHelper"></label>
+        
       </label>
       </div>
       <div class="delete"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
@@ -209,9 +214,10 @@
         <button class="down" onclick="niche(parentNode.parentNode)"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
         <div class="required">
           <span>Required</span>
-          <input type="checkbox" id="switch" class="checkbox" />
-          <label for="switch" class="toggle">
+         <input type="checkbox" id="switch" class="checkbox"  />
+          <label for="switch"  class="toggle" onclick="fn(this)" >
           <label class="toggleHelper"></label>
+         
         </label>
         </div>
 
@@ -256,15 +262,21 @@
   const button = document.querySelector("#submit_form");
   const title = document.getElementById("title");
   const desc = document.getElementById("desc");
+  const req=document.getElementById("switch");
 
- 
+//this se pass kra element kooo
+function fn(this_reference)
+{
+  this_reference.previousElementSibling.checked=!this_reference.previousElementSibling.checked;
+}
 
+  
   var count = 1;
   button.addEventListener('click',
     (e) => {
 
       
-      console.log(title.value);
+      //console.log(title.value);
       db.collection('form').doc(title.value).set({
         desc: desc.value
       });
@@ -276,6 +288,7 @@
           var temp = count + "_T";
           //for(var i=1;child.childNodes[7].childNodes[i]!=null;i++)
          // console.log(child.childNodes[7].childNodes[5].childNodes[3].checked);
+       // console.log( child.childNodes[7].childNodes[5].childNodes[3].checked);
           db.collection('form').doc(title.value).collection("hi").doc(temp).set({
             qs: child.childNodes[1].value,
             req:child.childNodes[7].childNodes[5].childNodes[3].checked
@@ -298,7 +311,7 @@
           if (num == 1)
           num += 1;
           }
-    
+    //console.log(child.childNodes[9].childNodes[5].childNodes[3].checked);
           db.collection('form').doc(title.value).collection("hi").doc(temp).set({
           qs: child.childNodes[1].value,
           op: l,
@@ -311,7 +324,7 @@
         if (child.className == 'uploadType box') {
           var temp = count + "_U";
         
-          //console.log(child.childNodes[1].value);
+          //console.log(child.childNodes[7].childNodes[5].childNodes[3].checked);
           db.collection('form').doc(title.value).collection("hi").doc(temp).set({
           qs: child.childNodes[1].value,
           req:child.childNodes[7].childNodes[5].childNodes[3].checked
