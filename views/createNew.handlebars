@@ -197,10 +197,9 @@
     setupToggles();
   });
 
-  addMCQQuestion.addEventListener('click', () => {
+  addMCQQuestion.addEventListener('click',()=>{
     additional = document.createElement("div");
-    additional.className = "mcqType";
-    additional.innerHTML = `
+    additional.innerHTML=`
       <input  type="text" placeholder="Question">
       <div class="plus"><i class="fa fa-plus option" aria-hidden="true"></i></div>
       <div id="possible">
@@ -214,39 +213,37 @@
         <button class="down" onclick="niche(parentNode.parentNode)"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
         <div class="required">
           <span>Required</span>
-         <input type="checkbox" id="switch" class="checkbox"  />
-          <label for="switch"  class="toggle" onclick="fn(this)" >
+          <input type="checkbox" id="switch" class="checkbox" />
+          <label for="switch" class="toggle">
           <label class="toggleHelper"></label>
-         
         </label>
         </div>
 
         <div class="delete"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
       </div>`
-    additional.classList.add("box");
-    mainContainer.appendChild(additional);
-    let possible = document.getElementById('possible');
-    let options = document.getElementsByClassName('option');
-    tog = document.getElementsByClassName('toggle');
-
-    for (option of options) {
-      option.addEventListener('click', (e) => {
-        cheating = document.createElement("div");
-        cheating.innerHTML = ` <input class="option-input" placeholder = "Option"><button class="option_delete";>X</button>`;
-        possible.appendChild(cheating);
-        for (option_delete of byebye) {
-          option_delete.addEventListener('click', (e) => {
-            e.target.closest('div').remove();
-          })
-        }
-      })
-    }
+      additional.classList.add("box");
+      mainContainer.appendChild(additional);
+      let possible=document.getElementById('possible');
+      let options=document.getElementsByClassName('option');
+      tog=document.getElementsByClassName('toggle');
 
 
-    setupDeleteButtons();
-    setupToggles();
-
-  })
+    options[options.length-1].addEventListener('click',(e)=>
+    {
+      cheating = document.createElement("div");
+      cheating.classList.add('indivisual')
+      cheating.innerHTML=` <input class="option-input" placeholder = "Option"><button class="option_delete";>X</button>`;
+      e.target.parentElement.nextElementSibling.appendChild(cheating);
+      for(option_delete of byebye)
+      {
+        option_delete.addEventListener('click',(e)=>{
+          e.target.closest('div').remove();
+        })    
+      }
+    })
+  setupDeleteButtons();
+  setupToggles();
+})
   let possible = document.getElementById('possible');
   let options = document.getElementsByClassName('option');
   let gayab = document.getElementsByClassName('indivisual');
