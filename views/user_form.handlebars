@@ -1,0 +1,209 @@
+<div onload="doSetup()"></div>
+<div class="container">
+  <div class="box form_title">
+    <div id="title"></div>
+    <div id="desc"></div>
+  </div>
+  <form id="main"></form>
+  <div class="result">
+    <div class="create-button" id="submit_form">Create</div>
+    <div class="cancel-button">Cancel</div>
+  </div>
+
+</div>
+
+<script>
+  let mainContainer = document.getElementById("main");
+  const title = document.querySelector('#title');
+  const desc = document.querySelector('#desc');
+  title.innerHTML = "First form";
+   
+
+  
+function fn(bool,e)
+{ //console.log(bool);
+      if (bool) {
+        e.style.backgroundColor = 'rgb(111, 217, 243)';
+        e.style.border = "2px solid rgb(111, 217, 243)";
+        e.firstChild.nextElementSibling.style.left = "15px"
+      }
+      else {
+        e.style.backgroundColor = 'white';
+        e.style.border = " 2px solid gray";
+        e.firstChild.nextElementSibling.style.left = "-5px"
+      }
+}
+
+
+
+  var docRef = db.collection('form').doc("First form");
+
+  docRef.get().then((doc) => {
+    desc.innerHTML = doc.data().desc;
+
+
+
+  }).catch((error) => {
+    console.log("Error getting document:", error);
+  });
+  var count = 0;
+  docRef.collection("hi").get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        //console.log(doc.id, " => ", doc.data());
+        var curr = doc.id;
+        var len = curr.length;
+
+
+        if (curr[len - 1] == 'T') {
+          var qs = doc.data().qs;
+          //console.log(qs);
+          additional = document.createElement("div");
+          additional.className = 'textType';
+          additional.innerHTML += `
+    
+     <p class="hi">Hi<p/>
+      <input type="text" class="sample-text" placeholder="Type your answer here">
+        
+      </input>
+       
+      
+      <div class="seperator">
+
+      </div>
+      <div class="question-control">
+     
+        
+       
+          <span>Required</span>
+          
+          <label for="switch"  class="toggle"  >
+          <label class="toggleHelper"></label>
+         
+        </label>
+        </div></i></div>
+      </div>
+            `
+
+
+          additional.classList.add("box");
+          mainContainer.appendChild(additional);
+
+          mainContainer.childNodes[count].childNodes[1].innerHTML = qs;
+          fn(doc.data().req,mainContainer.childNodes[count].childNodes[5].childNodes[3]);
+       
+          count++;
+        }
+
+        if (curr[len - 1] == 'U') {
+          var qs = doc.data().qs;
+          //console.log(qs);
+          additional = document.createElement("div");
+          additional.className = 'uploadType';
+          additional.innerHTML = `
+    
+     <p class="hi">Hi<p/>
+      <input type="text" class="sample-text" placeholder="Upload here">
+        
+      </input>
+       
+      
+      <div class="seperator">
+
+      </div>
+      <div class="question-control">
+     
+        
+       
+          <span>Required</span>
+          
+          <label for="switch"  class="toggle"  >
+          <label class="toggleHelper"></label>
+         
+        </label>
+        </div></i></div>
+      </div>
+            `
+
+
+          additional.classList.add("box");
+          mainContainer.appendChild(additional);
+            
+          mainContainer.childNodes[count].childNodes[1].innerHTML = qs;
+          
+          fn(doc.data().req,mainContainer.childNodes[count].childNodes[5].childNodes[3]);
+          count++;
+
+        }
+
+        if (curr[len - 1] == 'O') {
+           var qs = doc.data().qs;
+          //console.log(qs);
+          additional = document.createElement("div");
+        
+          additional.className = "mcqType";
+          additional.innerHTML = `
+      <p class="hi"><p/>
+     
+      <div id="possible">
+        <div class="indivisual">
+          
+        </div>
+      </div>
+      <div class="seperator"></div>
+     <div class="question-control">
+     
+        
+        
+          <span>Required</span>
+          
+          <label for="switch"  class="toggle"   >
+          <label class="toggleHelper" "></label>
+         
+        </label>
+        </div></i></div>
+      </div>`
+          additional.classList.add("box");
+          mainContainer.appendChild(additional);
+          mainContainer.childNodes[count].childNodes[1].innerHTML = qs;
+         
+         
+         fn(doc.data().req,mainContainer.childNodes[count].childNodes[7].childNodes[3]);
+          var option=doc.data().op;
+        //  console.log(option);
+          for(var i=1;i<=option.length;i++)
+          { 
+            var data=document.createElement('div');
+            data.className="prik";
+          var p2 = document.createElement('input');
+          p2.type="radio";
+     
+         // p2.innerHTML=i+")    "+option[i-1];
+        
+        
+         p2.name="options_here"
+         var opt=document.createElement('p');
+         opt.innerHTML="    "+option[i-1];
+         data.appendChild(p2);
+         data.appendChild(opt);
+
+         
+       
+          mainContainer.childNodes[count].childNodes[3].childNodes[1].appendChild(data);
+        
+          }
+         count++;
+          
+           
+        }
+
+
+      });
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
+
+
+</script>

@@ -309,3 +309,21 @@
     margin-left:60%;
   }
   }
+  
+  .prik{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+  }
+
+  .prik input{
+    width: 5%;
+  }
+  .mcqType p{
+   margin:0;    
+  }
+  /* .prik p{
+    margin: 0px;
+  } */
+
+  

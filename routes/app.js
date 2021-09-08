@@ -117,6 +117,12 @@ router.get('/newForm',redirectLogin,(req,res)=>{
     style:'newForm.css'
   });
 })
+router.get('/userForm',(req,res)=>{
+  res.render('user_form',{
+    style:'newForm.css'
+  });
+})
+
 
 
 
