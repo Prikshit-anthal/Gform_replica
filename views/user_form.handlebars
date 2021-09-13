@@ -4,7 +4,10 @@
     <div id="title"></div>
     <div id="desc"></div>
   </div>
-  <form id="main"></form>
+  
+  <form id="main">
+    <input type="number" min="1" class="ID" placeholder="Roll Number">
+  </form>
   <div class="result">
     <div class="create-button" id="submit_form">Create</div>
     <div class="cancel-button">Cancel</div>
@@ -46,7 +49,7 @@ function fn(bool,e)
   }).catch((error) => {
     console.log("Error getting document:", error);
   });
-  var count = 0;
+  var count = 3;
   docRef.collection("hi").get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
@@ -104,9 +107,9 @@ function fn(bool,e)
           additional.innerHTML = `
     
      <p class="hi">Hi<p/>
-      <input type="text" class="sample-text" placeholder="Upload here">
+      <input type="file" class="sample-text" >
         
-      </input>
+      
        
       
       <div class="seperator">
@@ -177,7 +180,7 @@ function fn(bool,e)
             var data=document.createElement('div');
             data.className="prik";
           var p2 = document.createElement('input');
-          p2.type="radio";
+          p2.type="checkbox";
      
          // p2.innerHTML=i+")    "+option[i-1];
         
@@ -205,5 +208,91 @@ function fn(bool,e)
       console.log("Error getting documents: ", error);
     });
 
+
+</script>
+
+<script>
+
+  const form = document.getElementById("main");
+  const button = document.querySelector("#submit_form");
+  const req=document.getElementById("switch");
+
+
+
+ var count1=1; 
+ 
+  button.addEventListener('click',
+    (e) => {
+
+      
+      //console.log(title.value);
+     
+   //  db.collection('form').doc(title.value).collection('ans').doc()
+     var ID;
+      for (var child = form.firstChild; child !== null; child = child.nextSibling) {
+          
+        if(child.className=='ID')
+        {
+          ID=child.value;
+          //console.log("hi");
+          
+        }
+          //text type
+        if (child.className == 'textType box') {
+         
+        // console.log(child.childNodes[2].childNodes[1].value);
+          db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection(String(count1)).doc('ans_doc').set({
+          ans: child.childNodes[2].childNodes[1].value,
+          
+          });
+          count1++;
+           
+        }
+
+        //mcq type
+        if (child.className == 'mcqType box') {
+          
+    
+        var mcq_ans=[];
+        for(var i=1;child.childNodes[3].childNodes[1].childNodes[i]!=null;i++)
+        {
+          //console.log(child.childNodes[3].childNodes[1].childNodes[i].childNodes[0].checked);
+          mcq_ans[i-1]=child.childNodes[3].childNodes[1].childNodes[i].childNodes[0].checked;
+          
+        }
+          db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection(String(count1)).doc('ans_doc').set({
+          ans: mcq_ans,
+          
+          });
+          count1++;
+
+        }
+
+
+        //upload file
+
+        let storageRef=firebase.storage().ref(title.innerHTML+"/"+ID);
+         
+        if (child.className == 'uploadType box') {
+            
+         let file=child.childNodes[2].childNodes[1].files[0];
+         console.log(file);
+         let this_ref=storageRef.child('ans');
+
+         this_ref.put(file).then(res=>{
+           console.log('done');
+         }).catch(e=>{
+           console.log('error uploading'+e);
+         })
+         
+           
+        }
+
+       
+
+
+      }
+    }
+  )
 
 </script>
