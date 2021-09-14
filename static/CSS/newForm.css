@@ -5,6 +5,8 @@
   body {
     font-family: Arial, helvetica, sans-serif;
   }
+
+  
   
   .container{
     padding-top: 50px;
@@ -29,6 +31,7 @@
     padding-right:25px;
     margin-top: 10px;
     border-radius: 12px;
+
   }
   .form_title{
     border-top: 10px solid green;
@@ -224,6 +227,15 @@
   }
   .result{
   margin-top:30px;
+  }
+
+  .star{
+    color:red;
+  }
+  .result a{
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    text-decoration: none;
   }
   .create-button{
   float:left;

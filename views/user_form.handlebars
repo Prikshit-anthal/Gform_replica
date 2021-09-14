@@ -4,13 +4,13 @@
     <div id="title"></div>
     <div id="desc"></div>
   </div>
-  
+
   <form id="main">
     <input type="number" min="1" class="ID" placeholder="Roll Number">
   </form>
   <div class="result">
-    <div class="create-button" id="submit_form">Create</div>
-    <div class="cancel-button">Cancel</div>
+    <div class="create-button" id="submit_form">Submit</div>
+    {{!-- <div class="cancel-button">Cancel</div> --}}
   </div>
 
 </div>
@@ -19,27 +19,20 @@
   let mainContainer = document.getElementById("main");
   const title = document.querySelector('#title');
   const desc = document.querySelector('#desc');
-  title.innerHTML = "First form";
-   
+  title.innerHTML = "second_form";
 
+
+
+  function fn(bool, e) { //console.log(bool);
+    if (bool) {
+     additional.childNodes[1].innerHTML += `<span class='star'>*</span>`;
   
-function fn(bool,e)
-{ //console.log(bool);
-      if (bool) {
-        e.style.backgroundColor = 'rgb(111, 217, 243)';
-        e.style.border = "2px solid rgb(111, 217, 243)";
-        e.firstChild.nextElementSibling.style.left = "15px"
-      }
-      else {
-        e.style.backgroundColor = 'white';
-        e.style.border = " 2px solid gray";
-        e.firstChild.nextElementSibling.style.left = "-5px"
-      }
-}
+    }
+  }
 
 
 
-  var docRef = db.collection('form').doc("First form");
+  var docRef = db.collection('form').doc(title.innerHTML);
 
   docRef.get().then((doc) => {
     desc.innerHTML = doc.data().desc;
@@ -61,30 +54,24 @@ function fn(bool,e)
 
         if (curr[len - 1] == 'T') {
           var qs = doc.data().qs;
+          
           //console.log(qs);
           additional = document.createElement("div");
           additional.className = 'textType';
           additional.innerHTML += `
     
-     <p class="hi">Hi<p/>
-      <input type="text" class="sample-text" placeholder="Type your answer here">
+     <p class="hi">Hi </p>
+      <textarea type="text"  class="sample-text" oncopy="return false" onpaste="return false" oncut="return false" placeholder="Type your answer here" ></textarea>
         
-      </input>
-       
+      
       
       <div class="seperator">
 
       </div>
       <div class="question-control">
-     
-        
-       
-          <span>Required</span>
+
+
           
-          <label for="switch"  class="toggle"  >
-          <label class="toggleHelper"></label>
-         
-        </label>
         </div></i></div>
       </div>
             `
@@ -94,19 +81,21 @@ function fn(bool,e)
           mainContainer.appendChild(additional);
 
           mainContainer.childNodes[count].childNodes[1].innerHTML = qs;
-          fn(doc.data().req,mainContainer.childNodes[count].childNodes[5].childNodes[3]);
-       
+          fn(doc.data().req, mainContainer.childNodes[count].childNodes[5].childNodes[3]);
+          
+
           count++;
         }
 
         if (curr[len - 1] == 'U') {
           var qs = doc.data().qs;
+          
           //console.log(qs);
           additional = document.createElement("div");
           additional.className = 'uploadType';
           additional.innerHTML = `
     
-     <p class="hi">Hi<p/>
+     <p class="hi">Hi</p>
       <input type="file" class="sample-text" >
         
       
@@ -119,12 +108,7 @@ function fn(bool,e)
      
         
        
-          <span>Required</span>
           
-          <label for="switch"  class="toggle"  >
-          <label class="toggleHelper"></label>
-         
-        </label>
         </div></i></div>
       </div>
             `
@@ -132,22 +116,23 @@ function fn(bool,e)
 
           additional.classList.add("box");
           mainContainer.appendChild(additional);
-            
+
           mainContainer.childNodes[count].childNodes[1].innerHTML = qs;
-          
-          fn(doc.data().req,mainContainer.childNodes[count].childNodes[5].childNodes[3]);
+
+          fn(doc.data().req, mainContainer.childNodes[count].childNodes[5].childNodes[3]);
           count++;
 
         }
 
         if (curr[len - 1] == 'O') {
-           var qs = doc.data().qs;
+          var qs = doc.data().qs;
+         
           //console.log(qs);
           additional = document.createElement("div");
-        
+
           additional.className = "mcqType";
           additional.innerHTML = `
-      <p class="hi"><p/>
+      <p class="hi">Hi</p>
      
       <div id="possible">
         <div class="indivisual">
@@ -159,46 +144,40 @@ function fn(bool,e)
      
         
         
-          <span>Required</span>
           
-          <label for="switch"  class="toggle"   >
-          <label class="toggleHelper" "></label>
-         
-        </label>
         </div></i></div>
       </div>`
           additional.classList.add("box");
           mainContainer.appendChild(additional);
           mainContainer.childNodes[count].childNodes[1].innerHTML = qs;
-         
-         
-         fn(doc.data().req,mainContainer.childNodes[count].childNodes[7].childNodes[3]);
-          var option=doc.data().op;
-        //  console.log(option);
-          for(var i=1;i<=option.length;i++)
-          { 
-            var data=document.createElement('div');
-            data.className="prik";
-          var p2 = document.createElement('input');
-          p2.type="checkbox";
-     
-         // p2.innerHTML=i+")    "+option[i-1];
-        
-        
-         p2.name="options_here"
-         var opt=document.createElement('p');
-         opt.innerHTML="    "+option[i-1];
-         data.appendChild(p2);
-         data.appendChild(opt);
 
-         
-       
-          mainContainer.childNodes[count].childNodes[3].childNodes[1].appendChild(data);
-        
+
+          fn(doc.data().req, mainContainer.childNodes[count].childNodes[7].childNodes[3]);
+          var option = doc.data().op;
+          //  console.log(option);
+          for (var i = 1; i <= option.length; i++) {
+            var data = document.createElement('div');
+            data.className = "prik";
+            var p2 = document.createElement('input');
+            p2.type = "checkbox";
+
+            // p2.innerHTML=i+")    "+option[i-1];
+
+
+            p2.name = "options_here"
+            var opt = document.createElement('p');
+            opt.innerHTML = "    " + option[i - 1];
+            data.appendChild(p2);
+            data.appendChild(opt);
+
+
+
+            mainContainer.childNodes[count].childNodes[3].childNodes[1].appendChild(data);
+
           }
-         count++;
-          
-           
+          count++;
+
+
         }
 
 
@@ -215,54 +194,53 @@ function fn(bool,e)
 
   const form = document.getElementById("main");
   const button = document.querySelector("#submit_form");
-  const req=document.getElementById("switch");
+  const req = document.getElementById("switch");
 
 
 
- var count1=1; 
- 
+  var count1 = 1;
+
   button.addEventListener('click',
     (e) => {
 
-      
+
       //console.log(title.value);
-     
-   //  db.collection('form').doc(title.value).collection('ans').doc()
-     var ID;
+
+      //  db.collection('form').doc(title.value).collection('ans').doc()
+      var ID;
       for (var child = form.firstChild; child !== null; child = child.nextSibling) {
-          
-        if(child.className=='ID')
-        {
-          ID=child.value;
+
+        if (child.className == 'ID') {
+          ID = child.value;
           //console.log("hi");
-          
+
         }
-          //text type
+        //text type
         if (child.className == 'textType box') {
-         
-        // console.log(child.childNodes[2].childNodes[1].value);
-          db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection("qs"+String(count1)).doc('ans_doc').set({
-          ans: child.childNodes[2].childNodes[1].value,
-          
+
+           console.log(child.childNodes[3].value);
+          db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection(String(count1)).doc('ans_doc').set({
+            ans: child.childNodes[3].value,
+
           });
           count1++;
-           
+          
+
         }
 
         //mcq type
         if (child.className == 'mcqType box') {
-          
-    
-        var mcq_ans=[];
-        for(var i=1;child.childNodes[3].childNodes[1].childNodes[i]!=null;i++)
-        {
-          //console.log(child.childNodes[3].childNodes[1].childNodes[i].childNodes[0].checked);
-          mcq_ans[i-1]=child.childNodes[3].childNodes[1].childNodes[i].childNodes[0].checked;
-          
-        }
-          db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection("qs"+String(count1)).doc('ans_doc').set({
-          ans: mcq_ans,
-          
+
+
+          var mcq_ans = [];
+          for (var i = 1; child.childNodes[3].childNodes[1].childNodes[i] != null; i++) {
+            //console.log(child.childNodes[3].childNodes[1].childNodes[i].childNodes[0].checked);
+            mcq_ans[i - 1] = child.childNodes[3].childNodes[1].childNodes[i].childNodes[0].checked;
+
+          }
+          db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection(String(count1)).doc('ans_doc').set({
+            ans: mcq_ans,
+
           });
           count1++;
 
@@ -271,24 +249,24 @@ function fn(bool,e)
 
         //upload file
 
-        let storageRef=firebase.storage().ref(title.innerHTML+"/"+ID);
-         
+        let storageRef = firebase.storage().ref(title.innerHTML + "/" + ID);
+
         if (child.className == 'uploadType box') {
-            
-         let file=child.childNodes[2].childNodes[1].files[0];
-         console.log(file);
-         let this_ref=storageRef.child('ans');
 
-         this_ref.put(file).then(res=>{
-           console.log('done');
-         }).catch(e=>{
-           console.log('error uploading'+e);
-         })
-         
-           
+          let file = child.childNodes[3].files[0];
+          console.log(file);
+          let this_ref = storageRef.child('ans');
+
+          this_ref.put(file).then(res => {
+            console.log('done');
+          }).catch(e => {
+            console.log('error uploading' + e);
+          })
+
+
         }
+        
 
-       
 
 
       }

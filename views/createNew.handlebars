@@ -1,52 +1,52 @@
-
-
-<div onload="doSetup()"></div>
-<div class="container">
-  <div class="box form_title">
-    <input type="text" placeholder="Title of form" id="title">
-    <input type="text" placeholder="Form description" id="desc">
-  </div>
-
-  <div class="icon-bar">
-    <div class="add-elements">
-      add
+<div onload="doSetup()">
+  <div class="container">
+    <div class="box form_title">
+      <input type="text" placeholder="Title of form" id="title">
+      <input type="text" placeholder="Form description" id="desc">
     </div>
-    <i class="fa fa-list-ol ic" aria-hidden="true" id="multiple"></i>
-    <i class="fa fa-paragraph ic" aria-hidden="true" id="paragraph"></i>
-    <i class="fa fa-file ic" aria-hidden="true" id="fileUpload"></i>
-  </div>
 
-  <form id="main">
-    {{!-- <div class="box">
-      <input type="text" placeholder="Question">
-      <div class="sample-text">
-        Upload a file
+    <div class="icon-bar">
+      <div class="add-elements">
+        add
       </div>
-      <div class="seperator"></div>
-      <div class="question-control">
-        <button class="up" onclick="upar(parentNode.parentNode)"><i class="fa fa-arrow-up"
-            aria-hidden="true"></i></button>
-        <button class="down" onclick="niche(parentNode.parentNode)">&nbsp <i class="fa fa-arrow-down"
-            aria-hidden="true"></i></button>
-        <div class="required">
+      <i class="fa fa-list-ol ic" aria-hidden="true" id="multiple"></i>
+      <i class="fa fa-paragraph ic" aria-hidden="true" id="paragraph"></i>
+      <i class="fa fa-file ic" aria-hidden="true" id="fileUpload"></i>
+    </div>
 
-          <span>Required</span>
-          <input type="checkbox" id="switch" class="checkbox" />
-          <label for="switch" class="toggle">
-            <label class="toggleHelper"></label>
-          </label>
+    <form id="main">
+      {{!-- <div class="box">
+        <input type="text" placeholder="Question">
+        <div class="sample-text">
+          Upload a file
         </div>
-        <div class="delete"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
-      </div>
-    </div> --}}
+        <div class="seperator"></div>
+        <div class="question-control">
+          <button class="up" onclick="upar(parentNode.parentNode)" type="button"><i class="fa fa-arrow-up"
+              aria-hidden="true"></i></button>
+          <button class="down" onclick="niche(parentNode.parentNode)" type="button">&nbsp <i class="fa fa-arrow-down"
+              aria-hidden="true"></i></button>
+          <div class="required">
 
-  </form>
-  
-  <div class="result">
-    <div class="create-button" id="submit_form">Create</div>
-    <div class="cancel-button">Cancel</div>
+            <span>Required</span>
+            <input type="checkbox" id="switch" class="checkbox" />
+            <label for="switch" class="toggle">
+              <label class="toggleHelper"></label>
+            </label>
+          </div>
+          <div class="delete"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
+        </div>
+      </div> --}}
+
+    </form>
+
+    <div class="result">
+      <div class="create-button" id="submit_form">Create</div>
+      <a href='/form'>
+        <div class="cancel-button">Cancel</div>
+      </a>
+    </div>
   </div>
-
 </div>
 
 <script>
@@ -59,13 +59,15 @@
   let shuffle = document.getElementById('shuffle');
   let byebye = document.getElementsByClassName('option_delete');
   // rearrange up
-  function upar(element) {
+  function upar(element) 
+  {
     if (element.previousElementSibling) {
       element.parentNode.insertBefore(element, element.previousElementSibling);
     }
   }
   //rearrange down
   function niche(element) {
+
     if (element.nextElementSibling) {
       element.parentNode.insertBefore(element.nextElementSibling, element);
     }
@@ -146,8 +148,8 @@
 
       </div>
       <div class="question-control">
-        <button class="up" onclick="upar(parentNode.parentNode)"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
-        <button class="down" onclick="niche(parentNode.parentNode)"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+        <button class="up" onclick="upar(parentNode.parentNode)" type="button"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+        <button class="down" onclick="niche(parentNode.parentNode)" type="button"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
         <div class="required">
           <span>Required</span>
           <input type="checkbox" id="switch" class="checkbox"  />
@@ -178,8 +180,8 @@
     <div class="seperator">
     </div>
     <div class="question-control">
-      <button class="up" onclick="upar(parentNode.parentNode)"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
-      <button class="down" onclick="niche(parentNode.parentNode)"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+      <button class="up" onclick="upar(parentNode.parentNode)" type="button"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+      <button class="down" onclick="niche(parentNode.parentNode)" type="button"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
       <div class="required">
         <span>Required</span>
          <input type="checkbox" id="switch" class="checkbox"  />
@@ -197,11 +199,11 @@
     setupToggles();
   });
 
-  addMCQQuestion.addEventListener('click',()=>{
+  addMCQQuestion.addEventListener('click', () => {
     additional = document.createElement("div");
-    
+
     additional.className = "mcqType";
-    additional.innerHTML=`
+    additional.innerHTML = `
       <input  type="text" placeholder="Question">
       <div class="plus"><i class="fa fa-plus option" aria-hidden="true"></i></div>
       <div id="possible">
@@ -211,8 +213,8 @@
       </div>
       <div class="seperator"></div>
       <div class="question-control">
-        <button class="up" onclick="upar(parentNode.parentNode)"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
-        <button class="down" onclick="niche(parentNode.parentNode)"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+        <button class="up" onclick="upar(parentNode.parentNode)" type="button"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+        <button class="down" onclick="niche(parentNode.parentNode)" type="button"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
         <div class="required">
           <span>Required</span>
           <input type="checkbox" id="switch" class="checkbox" />
@@ -223,29 +225,27 @@
 
         <div class="delete"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
       </div>`
-      additional.classList.add("box");
-      mainContainer.appendChild(additional);
-      let possible=document.getElementById('possible');
-      let options=document.getElementsByClassName('option');
-      tog=document.getElementsByClassName('toggle');
+    additional.classList.add("box");
+    mainContainer.appendChild(additional);
+    let possible = document.getElementById('possible');
+    let options = document.getElementsByClassName('option');
+    tog = document.getElementsByClassName('toggle');
 
 
-    options[options.length-1].addEventListener('click',(e)=>
-    {
+    options[options.length - 1].addEventListener('click', (e) => {
       cheating = document.createElement("div");
       cheating.classList.add('indivisual')
-      cheating.innerHTML=` <input class="option-input" placeholder = "Option"><button class="option_delete";>X</button>`;
+      cheating.innerHTML = ` <input class="option-input" placeholder = "Option"><button class="option_delete";>X</button>`;
       e.target.parentElement.nextElementSibling.appendChild(cheating);
-      for(option_delete of byebye)
-      {
-        option_delete.addEventListener('click',(e)=>{
+      for (option_delete of byebye) {
+        option_delete.addEventListener('click', (e) => {
           e.target.closest('div').remove();
-        })    
+        })
       }
     })
-  setupDeleteButtons();
-  setupToggles();
-})
+    setupDeleteButtons();
+    setupToggles();
+  })
   let possible = document.getElementById('possible');
   let options = document.getElementsByClassName('option');
   let gayab = document.getElementsByClassName('indivisual');
@@ -261,39 +261,38 @@
   const button = document.querySelector("#submit_form");
   const title = document.getElementById("title");
   const desc = document.getElementById("desc");
-  const req=document.getElementById("switch");
+  const req = document.getElementById("switch");
 
-//this se pass kra element kooo
-function fn(this_reference)
-{
-  this_reference.previousElementSibling.checked=!this_reference.previousElementSibling.checked;
-}
+  //this se pass kra element kooo
+  function fn(this_reference) {
+    this_reference.previousElementSibling.checked = !this_reference.previousElementSibling.checked;
+  }
 
-  
+
   var count = 1;
   button.addEventListener('click',
     (e) => {
 
-      
+
       //console.log(title.value);
       db.collection('form').doc(title.value).set({
         desc: desc.value
       });
 
       for (var child = form.firstChild; child !== null; child = child.nextSibling) {
-          
-          //text type
+
+        //text type
         if (child.className == 'textType box') {
           var temp = count + "_T";
           //for(var i=1;child.childNodes[7].childNodes[i]!=null;i++)
-         // console.log(child.childNodes[7].childNodes[5].childNodes[3].checked);
-       // console.log( child.childNodes[7].childNodes[5].childNodes[3].checked);
+          // console.log(child.childNodes[7].childNodes[5].childNodes[3].checked);
+          // console.log( child.childNodes[7].childNodes[5].childNodes[3].checked);
           db.collection('form').doc(title.value).collection("hi").doc(temp).set({
             qs: child.childNodes[1].value,
-            req:child.childNodes[7].childNodes[5].childNodes[3].checked
-            
+            req: child.childNodes[7].childNodes[5].childNodes[3].checked
+
           });
-           count++;
+          count++;
         }
 
         //mcq type
@@ -303,35 +302,35 @@ function fn(this_reference)
           var l = [];
 
           var n = 0;
-            
+
           for (var num = 1; child.childNodes[5].childNodes[num] != null; num++) {
-          l[n] = child.childNodes[5].childNodes[num].childNodes[1].value;
-          n++;
-          if (num == 1)
-          num += 1;
+            l[n] = child.childNodes[5].childNodes[num].childNodes[1].value;
+            n++;
+            if (num == 1)
+              num += 1;
           }
-    //console.log(child.childNodes[9].childNodes[5].childNodes[3].checked);
+          //console.log(child.childNodes[9].childNodes[5].childNodes[3].checked);
           db.collection('form').doc(title.value).collection("hi").doc(temp).set({
-          qs: child.childNodes[1].value,
-          op: l,
-          req:child.childNodes[9].childNodes[5].childNodes[3].checked
+            qs: child.childNodes[1].value,
+            op: l,
+            req: child.childNodes[9].childNodes[5].childNodes[3].checked
           });
           count++;
         }
 
-         //upload file
+        //upload file
         if (child.className == 'uploadType box') {
           var temp = count + "_U";
-        
+
           //console.log(child.childNodes[7].childNodes[5].childNodes[3].checked);
           db.collection('form').doc(title.value).collection("hi").doc(temp).set({
-          qs: child.childNodes[1].value,
-          req:child.childNodes[7].childNodes[5].childNodes[3].checked
+            qs: child.childNodes[1].value,
+            req: child.childNodes[7].childNodes[5].childNodes[3].checked
           });
-            count++;
+          count++;
         }
 
-       
+
 
 
       }
