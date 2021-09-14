@@ -2,7 +2,7 @@ const express = require('express')
 const path = require('path')//path module import
 var exphbs = require('express-handlebars')
 const app = express()
-const port = 5010
+const port = 5050
 
 
 app.engine('handlebars',exphbs());

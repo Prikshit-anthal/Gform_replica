@@ -270,13 +270,22 @@
 
 
   var count = 1;
+  var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
+
+today = mm + '/' + dd + '/' + yyyy;
+//console.log(today);
   button.addEventListener('click',
     (e) => {
 
 
       //console.log(title.value);
       db.collection('form').doc(title.value).set({
-        desc: desc.value
+        desc: desc.value,
+        date:today,
+
       });
 
       for (var child = form.firstChild; child !== null; child = child.nextSibling) {
