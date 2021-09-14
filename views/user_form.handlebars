@@ -249,7 +249,7 @@
 
         //upload file
 
-        let storageRef = firebase.storage().ref(title.innerHTML + "/" + ID);
+        let storageRef = firebase.storage().ref(title.innerHTML + "/" + ID+"/"+count1);
 
         if (child.className == 'uploadType box') {
 
@@ -263,7 +263,7 @@
             console.log('error uploading' + e);
           })
 
-
+         count1++;
         }
         
 
