@@ -1,39 +1,38 @@
 <nav class="navbar">
-        <div class="rightnav">
-            <form action="/logout" method="POST">
-                <button>Logout</button>
-        </div>
-    </nav>
-    <div class="container">
-        <div class="box"  id="show">
-            <a class="a"     href="/newForm"><i class="fa fa-plus-square-o" aria-hidden="true"></i></a>
-            <div class="hide" >Create New form</div>
-            <h1 >FORMS YOU CREATED TILL NOW</h1>
-            
-        </div>
+    <div class="rightnav">
+        <form action="/logout" method="POST">
+            <button>Logout</button>
     </div>
+</nav>
+<div class="container">
+    <div class="box" id="show">
+        <a class="a" href="/newForm"><i class="fa fa-plus-square-o" aria-hidden="true"></i></a>
+        <div class="hide">Create New form</div>
+        <h1>FORMS YOU CREATED TILL NOW</h1>
+
+    </div>
+</div>
 
 
- 
 
- 
+
+
 
 
 <script>
-    var append=document.querySelector("#show");
-    var counter=7;
+    var append = document.querySelector("#show");
+    var counter = 7;
     var docRef = db.collection('form');
     var doc_id;
 
-function renderdata(doc)
-{  
-    var date=doc.data().date;
-       doc_id=doc.id;
-          additional = document.createElement("div");
-          additional.className = 'row';
-          //additional.setAttribute('data-id',doc_id);
-          additional.setAttribute("data-id",String(doc.id));
-          additional.innerHTML +=`
+    function renderdata(doc) {
+        var date = doc.data().date;
+        doc_id = doc.id;
+        additional = document.createElement("div");
+        additional.className = 'row';
+        //additional.setAttribute('data-id',doc_id);
+        additional.setAttribute("data-id", String(doc.id));
+        additional.innerHTML += `
           <div class="subject">Maths</div>
                 <div class="fixedItems">
                     <div class="date">20/07/2021</div>
@@ -42,54 +41,53 @@ function renderdata(doc)
                 </div>
                 
           `;
-          brak=document.createElement("br");
-       // brak.setAttribute('data-id',"null");
+        brak = document.createElement("br");
+        // brak.setAttribute('data-id',"null");
         append.appendChild(additional);
         append.appendChild(brak);
-        
-        
-      
-       append.childNodes[counter].childNodes[3].childNodes[1].innerHTML=date;
-       append.childNodes[counter].childNodes[1].innerHTML=doc_id;
-       
-       let cross=append.childNodes[counter].childNodes[3].childNodes[3];
-       counter+=2;
-   //delete
- 
-
-   cross.addEventListener('click',(e)=>{
-       e.stopPropagation();
-       let id=e.target.parentElement.parentElement.parentElement.getAttribute('data-id');
-     
-       docRef.doc(id).delete();
-   })
-   
-   
-}
 
 
- var dta=document.getElementById("show");
-docRef.onSnapshot(snapshot=>{
-    let changes =snapshot.docChanges();
- 
-    changes.forEach(change=>{
-       
-        if(change.type=='added')
-        {
-            renderdata(change.doc);
-            
 
-        }
-        else if(change.type=='removed'){
-            let dataid=String(change.doc.id);
-            let li=dta.querySelector('[data-id=\''+String(change.doc.id)+'\']');
+        append.childNodes[counter].childNodes[3].childNodes[1].innerHTML = date;
+        append.childNodes[counter].childNodes[1].innerHTML = doc_id;
 
-           
-            dta.removeChild(li);
-            
-        }
+        let cross = append.childNodes[counter].childNodes[3].childNodes[3];
+        counter += 2;
+        //delete
+
+
+        cross.addEventListener('click', (e) => {
+            e.stopPropagation();
+            let id = e.target.parentElement.parentElement.parentElement.getAttribute('data-id');
+
+            docRef.doc(id).delete();
+        })
+
+
+    }
+
+
+    var dta = document.getElementById("show");
+    docRef.onSnapshot(snapshot => {
+        let changes = snapshot.docChanges();
+
+        changes.forEach(change => {
+
+            if (change.type == 'added') {
+                renderdata(change.doc);
+
+
+            }
+            else if (change.type == 'removed') {
+                let dataid = String(change.doc.id);
+                let li = dta.querySelector('[data-id=\'' + String(change.doc.id) + '\']');
+
+
+                dta.removeChild(li);
+
+            }
+        })
     })
-})
 
 
 
