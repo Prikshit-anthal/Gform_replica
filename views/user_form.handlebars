@@ -1,4 +1,4 @@
-<div onload="doSetup()"></div>
+<div onload="doSetup()" ></div>
 <div class="container">
   <div class="box form_title">
     <div id="title"></div>
@@ -16,10 +16,22 @@
 </div>
 
 <script>
+  
+  
+    const params=(new URL(document.location)).searchParams;
+  //  const form_title=params.get('form_title');
+    console.log(params.get('form_title'));
+    var decrypted=atob(params.get('form_title'));
+    var form_title=decrypted;
+    
+</script>
+
+<script>
   let mainContainer = document.getElementById("main");
   const title = document.querySelector('#title');
   const desc = document.querySelector('#desc');
-  title.innerHTML = "second_form";
+  title.innerHTML = form_title;
+  console.log(title.innerHTML);
 
 
 
