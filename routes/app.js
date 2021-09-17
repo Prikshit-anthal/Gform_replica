@@ -9,9 +9,6 @@ var firebase = require("firebase/app");
 const { format } = require('path');
 require("firebase/firestore");
 require("firebase/app");
-
-
-
 const router = express.Router()
 
 
@@ -140,8 +137,10 @@ if(name && password)
     req.session.userId=user.id;
     res.redirect('/form');
   }
+  else
+  res.redirect('/');
 }
-res.redirect('/');
+
 })
 router.post('/logout',redirectLogin,(req,res)=>{
   req.session.destroy(err=>{
