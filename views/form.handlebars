@@ -42,6 +42,8 @@
                 
           `;
         brak = document.createElement("br");
+        brak.className="dont delete me";
+       
         // brak.setAttribute('data-id',"null");
         append.appendChild(additional);
         append.appendChild(brak);
@@ -59,7 +61,7 @@
         cross.addEventListener('click', (e) => {
             e.stopPropagation();
             let id = e.target.parentElement.parentElement.parentElement.getAttribute('data-id');
-
+            
             docRef.doc(id).delete();
         })
 
@@ -82,8 +84,11 @@
                 let dataid = String(change.doc.id);
                 let li = dta.querySelector('[data-id=\'' + String(change.doc.id) + '\']');
 
-
+               // console.log(li.nextSibling);
+                 li.nextSibling.parentNode.removeChild(li.nextSibling);
                 dta.removeChild(li);
+                //dta.remove(li.nextSibling);
+               
 
             }
         })
