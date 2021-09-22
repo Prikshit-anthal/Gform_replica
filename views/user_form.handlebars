@@ -6,7 +6,7 @@
   </div>
 
   <form id="main">
-    <input type="number" min="1" class="ID" placeholder="Roll Number">
+    <input type="number" min="1" class="ID" data-id="ok" placeholder="Roll Number">
   </form>
   <div class="result">
     <div class="create-button" id="submit_form">Submit</div>
@@ -20,7 +20,7 @@
   
     const params=(new URL(document.location)).searchParams;
   //  const form_title=params.get('form_title');
-    console.log(params.get('form_title'));
+   // console.log(params.get('form_title'));
     var decrypted=atob(params.get('form_title'));
     var form_title=decrypted;
     
@@ -31,16 +31,96 @@
   const title = document.querySelector('#title');
   const desc = document.querySelector('#desc');
   title.innerHTML = form_title;
-  console.log(title.innerHTML);
+ // console.log(title.innerHTML);
 
 
 
   function fn(bool, e) { //console.log(bool);
     if (bool) {
      additional.childNodes[1].innerHTML += `<span class='star'>*</span>`;
-  
+     //console.log(additional.childNodes[3].className);
+     if(additional.className!="mcqType box")
+     {
+     additional.childNodes[3].setAttribute("data-id", "ok"); 
+     }
+     
+
+
+ 
+
+
+
+ 
     }
   }
+
+   function null_check()
+  {  
+     
+     //let li = document.querySelectorAll("[data-id=\'" + "ok" + "\']");
+
+    //li[0].scrollIntoView({ behavior: 'smooth', block: 'end'});
+    
+    let li=document.querySelectorAll("[data-id=\'" + "ok" + "\']");
+  //  console.log(final.length);
+    console.log(li.length);
+    for(var i=0;i<li.length;i++)
+    {
+      console.log(li[i].value+" "+i+" "+li[i].type);
+      if(li[i].type=="number")
+      {
+         if(li[i].value==0)
+      { //console.log("hi");
+       // alert("fill up");
+       li[i].scrollIntoView({ behavior: 'smooth', block: 'end'});
+
+      alert("fill up required feilds");
+
+        return false;
+        
+      }
+      }
+      if(li[i].type=="textarea")
+      {
+        if(li[i].value=="")
+      { //console.log("hi");
+       // alert("fill up");
+       li[i].scrollIntoView({ behavior: 'smooth', block: 'end'});
+
+      alert("fill up required feilds");
+
+        return false;
+        
+      }
+      }
+
+
+      if(li[i].type=="file")
+      { //console.log("hi"+i);
+        if(li[i].files.length == 0)
+        {
+           li[i].scrollIntoView({ behavior: 'smooth', block: 'end'});
+
+      alert("fill up required feilds");
+
+        return false;
+        }
+      }
+      
+      
+      
+
+    }
+    return true; 
+   
+    
+  }
+
+
+
+
+
+
 
 
 
@@ -93,7 +173,7 @@
           mainContainer.appendChild(additional);
 
           mainContainer.childNodes[count].childNodes[1].innerHTML = qs;
-          fn(doc.data().req, mainContainer.childNodes[count].childNodes[5].childNodes[3]);
+          fn(doc.data().req, mainContainer.childNodes[count].childNodes[1]);
           
 
           count++;
@@ -131,7 +211,7 @@
 
           mainContainer.childNodes[count].childNodes[1].innerHTML = qs;
 
-          fn(doc.data().req, mainContainer.childNodes[count].childNodes[5].childNodes[3]);
+          fn(doc.data().req,mainContainer.childNodes[count].childNodes[1]);
           count++;
 
         }
@@ -164,7 +244,7 @@
           mainContainer.childNodes[count].childNodes[1].innerHTML = qs;
 
 
-          fn(doc.data().req, mainContainer.childNodes[count].childNodes[7].childNodes[3]);
+          fn(doc.data().req, mainContainer.childNodes[count].childNodes[1]);
           var option = doc.data().op;
           //  console.log(option);
           for (var i = 1; i <= option.length; i++) {
@@ -214,8 +294,17 @@
 
   button.addEventListener('click',
     (e) => {
+    
+    
 
 
+
+
+
+// console.log(null_check());
+
+
+    if(null_check()){
       //console.log(title.value);
 
       //  db.collection('form').doc(title.value).collection('ans').doc()
@@ -282,6 +371,7 @@
 
 
       }
+    }
     }
   )
 

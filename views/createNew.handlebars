@@ -1,8 +1,8 @@
 <div onload="doSetup()">
   <div class="container">
     <div class="box form_title">
-      <input type="text" placeholder="Title of form" id="title">
-      <input type="text" placeholder="Form description" id="desc">
+      <input type="text" placeholder="Title of form" id="title" class="nullCheck">
+      <input type="text" placeholder="Form description" id="desc" class="nullCheck">
     </div>
 
     <div class="icon-bar">
@@ -138,7 +138,7 @@
     additional = document.createElement("div");
     additional.className = 'textType';
     additional.innerHTML = `
-      <input type="text" placeholder="Question" />
+      <input type="text" placeholder="Question" class="nullCheck" />
       <div class="sample-text">
         Type your answer here
       </div>
@@ -172,7 +172,7 @@
     additional = document.createElement("div");
     additional.className = "uploadType";
     additional.innerHTML = `
-    <input type="text" placeholder="Question">
+    <input type="text" placeholder="Question" class="nullCheck">
     
     <div class="sample-text">
       Upload file
@@ -204,11 +204,11 @@
 
     additional.className = "mcqType";
     additional.innerHTML = `
-      <input  type="text" placeholder="Question">
+      <input  type="text" placeholder="Question" class="nullCheck">
       <div class="plus"><i class="fa fa-plus option" aria-hidden="true"></i></div>
       <div id="possible">
         <div class="indivisual">
-          <input class="option-input" placeholder = "Option"><button class="option_delete">X</button>
+          <input class="option-input nullCheck"  placeholder = "Option"><button type="button" class="option_delete">X</button>
         </div>
       </div>
       <div class="seperator"></div>
@@ -235,7 +235,7 @@
     options[options.length - 1].addEventListener('click', (e) => {
       cheating = document.createElement("div");
       cheating.classList.add('indivisual')
-      cheating.innerHTML = ` <input class="option-input" placeholder = "Option"><button class="option_delete";>X</button>`;
+      cheating.innerHTML = ` <input class="option-input nullCheck" placeholder = "Option"><button class="option_delete";>X</button>`;
       e.target.parentElement.nextElementSibling.appendChild(cheating);
       for (option_delete of byebye) {
         option_delete.addEventListener('click', (e) => {
@@ -268,6 +268,32 @@
     this_reference.previousElementSibling.checked = !this_reference.previousElementSibling.checked;
   }
 
+  function null_check()
+  {  
+     var text_feilds=document.getElementsByClassName("nullCheck");
+   // console.log (text_feilds.length);
+    for(var i=0;i<text_feilds.length;i++)
+    {
+      //console.log(text_feilds[i].value);
+      if(text_feilds[i].value=="")
+      { 
+       // alert("fill up");
+       text_feilds[i].scrollIntoView({ behavior: 'smooth', block: 'end'});
+
+      alert("fill up");
+
+        return false;
+        
+      }
+      
+      
+
+    }
+    return true; 
+   
+    
+  }
+
 
   var count = 1;
   var today = new Date();
@@ -279,8 +305,11 @@ today = mm + '/' + dd + '/' + yyyy;
 //console.log(today);
   button.addEventListener('click',
     (e) => {
-
-
+    var ch=null_check();
+   // console.log(ch);
+    if(ch)
+ {
+    //console.log("why im here");
       //console.log(title.value);
       db.collection('form').doc(title.value).set({
         desc: desc.value,
@@ -344,6 +373,10 @@ today = mm + '/' + dd + '/' + yyyy;
 
       }
     }
-  )
+  }  
+  );
 
+  
+
+  
 </script>
