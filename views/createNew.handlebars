@@ -59,8 +59,7 @@
   let shuffle = document.getElementById('shuffle');
   let byebye = document.getElementsByClassName('option_delete');
   // rearrange up
-  function upar(element) 
-  {
+  function upar(element) {
     if (element.previousElementSibling) {
       element.parentNode.insertBefore(element, element.previousElementSibling);
     }
@@ -268,115 +267,113 @@
     this_reference.previousElementSibling.checked = !this_reference.previousElementSibling.checked;
   }
 
-  function null_check()
-  {  
-     var text_feilds=document.getElementsByClassName("nullCheck");
-   // console.log (text_feilds.length);
-    for(var i=0;i<text_feilds.length;i++)
-    {
+  function null_check() {
+    var text_feilds = document.getElementsByClassName("nullCheck");
+    // console.log (text_feilds.length);
+    for (var i = 0; i < text_feilds.length; i++) {
       //console.log(text_feilds[i].value);
-      if(text_feilds[i].value=="")
-      { 
-       // alert("fill up");
-       text_feilds[i].scrollIntoView({ behavior: 'smooth', block: 'end'});
+      if (text_feilds[i].value == "") {
+        // alert("fill up");
+        text_feilds[i].scrollIntoView({ behavior: 'smooth', block: 'end' });
 
-      alert("fill up");
+        alert("fill up");
 
         return false;
-        
+
       }
-      
-      
+
+
 
     }
-    return true; 
-   
-    
+    return true;
+
+
   }
+
+
 
 
   var count = 1;
   var today = new Date();
-var dd = String(today.getDate()).padStart(2, '0');
-var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-var yyyy = today.getFullYear();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
 
-today = mm + '/' + dd + '/' + yyyy;
-//console.log(today);
+  today = mm + '/' + dd + '/' + yyyy;
+  //console.log(today);
   button.addEventListener('click',
     (e) => {
-    var ch=null_check();
-   // console.log(ch);
-    if(ch)
- {
-    //console.log("why im here");
-      //console.log(title.value);
-      db.collection('form').doc(title.value).set({
-        desc: desc.value,
-        date:today,
+      var ch = null_check();
+      // console.log(ch);
+      if (ch) {
+        //console.log("why im here");
+        //console.log(title.value);
+        db.collection('form').doc(title.value).set({
+          desc: desc.value,
+          date: today,
 
-      });
+        });
 
-      for (var child = form.firstChild; child !== null; child = child.nextSibling) {
+        for (var child = form.firstChild; child !== null; child = child.nextSibling) {
 
-        //text type
-        if (child.className == 'textType box') {
-          var temp = count + "_T";
-          //for(var i=1;child.childNodes[7].childNodes[i]!=null;i++)
-          // console.log(child.childNodes[7].childNodes[5].childNodes[3].checked);
-          // console.log( child.childNodes[7].childNodes[5].childNodes[3].checked);
-          db.collection('form').doc(title.value).collection("hi").doc(temp).set({
-            qs: child.childNodes[1].value,
-            req: child.childNodes[7].childNodes[5].childNodes[3].checked
+          //text type
+          if (child.className == 'textType box') {
+            var temp = count + "_T";
+            //for(var i=1;child.childNodes[7].childNodes[i]!=null;i++)
+            // console.log(child.childNodes[7].childNodes[5].childNodes[3].checked);
+            // console.log( child.childNodes[7].childNodes[5].childNodes[3].checked);
+            db.collection('form').doc(title.value).collection("hi").doc(temp).set({
+              qs: child.childNodes[1].value,
+              req: child.childNodes[7].childNodes[5].childNodes[3].checked
 
-          });
-          count++;
-        }
-
-        //mcq type
-        if (child.className == 'mcqType box') {
-          var temp = count + "_O";
-          var num = 1;
-          var l = [];
-
-          var n = 0;
-
-          for (var num = 1; child.childNodes[5].childNodes[num] != null; num++) {
-            l[n] = child.childNodes[5].childNodes[num].childNodes[1].value;
-            n++;
-            if (num == 1)
-              num += 1;
+            });
+            count++;
           }
-          //console.log(child.childNodes[9].childNodes[5].childNodes[3].checked);
-          db.collection('form').doc(title.value).collection("hi").doc(temp).set({
-            qs: child.childNodes[1].value,
-            op: l,
-            req: child.childNodes[9].childNodes[5].childNodes[3].checked
-          });
-          count++;
+
+          //mcq type
+          if (child.className == 'mcqType box') {
+            var temp = count + "_O";
+            var num = 1;
+            var l = [];
+
+            var n = 0;
+
+            for (var num = 1; child.childNodes[5].childNodes[num] != null; num++) {
+              l[n] = child.childNodes[5].childNodes[num].childNodes[1].value;
+              n++;
+              if (num == 1)
+                num += 1;
+            }
+            //console.log(child.childNodes[9].childNodes[5].childNodes[3].checked);
+            db.collection('form').doc(title.value).collection("hi").doc(temp).set({
+              qs: child.childNodes[1].value,
+              op: l,
+              req: child.childNodes[9].childNodes[5].childNodes[3].checked
+            });
+            count++;
+          }
+
+          //upload file
+          if (child.className == 'uploadType box') {
+            var temp = count + "_U";
+
+            //console.log(child.childNodes[7].childNodes[5].childNodes[3].checked);
+            db.collection('form').doc(title.value).collection("hi").doc(temp).set({
+              qs: child.childNodes[1].value,
+              req: child.childNodes[7].childNodes[5].childNodes[3].checked
+            });
+            count++;
+          }
+
+
+
+
         }
-
-        //upload file
-        if (child.className == 'uploadType box') {
-          var temp = count + "_U";
-
-          //console.log(child.childNodes[7].childNodes[5].childNodes[3].checked);
-          db.collection('form').doc(title.value).collection("hi").doc(temp).set({
-            qs: child.childNodes[1].value,
-            req: child.childNodes[7].childNodes[5].childNodes[3].checked
-          });
-          count++;
-        }
-
-
-
-
       }
     }
-  }  
   );
 
-  
 
-  
+
+
 </script>
