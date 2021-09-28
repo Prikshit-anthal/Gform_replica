@@ -9,7 +9,7 @@
     <input type="number" min="1" class="ID" data-id="ok" placeholder="Roll Number">
   </form>
   <div class="result">
-    <div class="create-button" id="submit_form">Submit</div>
+    <div class="create-button" id="submit_form" type="submit">Submit</div>
     {{!-- <div class="cancel-button">Cancel</div> --}}
   </div>
 
@@ -20,10 +20,9 @@
   
     const params=(new URL(document.location)).searchParams;
   //  const form_title=params.get('form_title');
-   // console.log(params.get('form_title'));
+   //console.log(params.get('form_title'));
     var decrypted=atob(params.get('form_title'));
     var form_title=decrypted;
-    
 </script>
 
 <script>
@@ -314,13 +313,19 @@
         if (child.className == 'ID') {
           ID = child.value;
           //console.log("hi");
+          db.collection("form").doc(title.innerHTML).collection("ans").doc(ID).set({
+          roll: ID,
+        });
 
         }
+
+        
+
         //text type
         if (child.className == 'textType box') {
 
            console.log(child.childNodes[3].value);
-          db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection(String(count1)).doc('ans_doc').set({
+          db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection("ans_1").doc(String(count1)+"_T").set({
             ans: child.childNodes[3].value,
 
           });
@@ -339,7 +344,7 @@
             mcq_ans[i - 1] = child.childNodes[3].childNodes[1].childNodes[i].childNodes[0].checked;
 
           }
-          db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection(String(count1)).doc('ans_doc').set({
+          db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection("ans_1").doc(String(count1)+"_O").set({
             ans: mcq_ans,
 
           });
@@ -363,6 +368,11 @@
           }).catch(e => {
             console.log('error uploading' + e);
           })
+
+          db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection("ans_1").doc(String(count1)+"_U").set({
+            ans: "pdf",
+
+          });
 
          count1++;
         }
