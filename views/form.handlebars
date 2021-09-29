@@ -120,8 +120,7 @@
     async function im_csv_fn(that) {
 
         // Await for the promise to resolve
-        await new Promise(async (resolve) => {
-            setTimeout(async () => {
+     
                 let citiesRef = db.collection("form").doc(that.parentNode.previousSibling.previousSibling.innerHTML).collection("ans");
                 let allCities = await citiesRef.get();
                 for (const doc of allCities.docs) {
@@ -169,16 +168,12 @@
 
                 console.log(roll_no);
                 console.log(answer);
-
-            }
-                , 2000);
-
-
-        });
+            
+        console.log("hui hui hui");
     }
 
    // console.log(that.parentNode.previousSibling.previousSibling.className);
-
+  
 
 
 
