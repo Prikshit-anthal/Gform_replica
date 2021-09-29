@@ -166,15 +166,75 @@
 
                 }
 
-                console.log(roll_no);
-                console.log(answer);
+                //console.log(roll_no[0]);
+                //console.log(answer[0]);
             
-        console.log("hui hui hui");
+       // console.log(roll_no);
+        
+        var tempo=[],realo=[];
+        
+        for(var i=0;i<roll_no.length;i++)
+        {
+            tempo[0]=roll_no[i];
+           // console.log(tempo[0]);
+            var ok=1;
+            for(var j=i*answer.length/roll_no.length;j<(i+1)*answer.length/roll_no.length;j++)
+            {   if(typeof(answer[j])=="object")
+                { var rukja="";
+                  for(var omkey=0;omkey<answer[j].length;omkey++)
+                  { //  console.log(answer[j][omkey]);
+                      if(answer[j][omkey]==true)
+                      rukja=rukja+"true"+"_";
+                      else
+                      rukja+="false"+"_";
+                  }
+                 // rukja=rukja+toString(answer[omkey])+"_";
+                  tempo[ok]=rukja;
+                }
+                else
+                tempo[ok]=answer[j];
+                ok++;
+            }
+           // console.log(tempo);
+            //realo[i]=tempo;
+            //**yeh glt tareeka coz realo[0],realo[1] all arre storing ref to tempo only as tempo changes i=0,1,2,.. all gets same as they all refer to same
+            var temp=tempo.slice();
+            realo.push(temp);
+
+            
+        }
+        console.log("CSV downloading");
+        download_csv_file(realo);
     }
 
    // console.log(that.parentNode.previousSibling.previousSibling.className);
   
+  function download_csv_file(csvFileData ) {
 
+    //define the heading for each row of the data
+    var csv = 'Roll No,';
+    for(var i=1;i<csvFileData[0].length;i++)
+    csv+="Qs_"+i+",";
+    csv+='\n';
+    
+    //merge the data with CSV
+    csvFileData.forEach(function(row) {
+            csv += row.join(',');
+            csv += "\n";
+    });
+ 
+    //display the created CSV data on the web browser 
+    //document.write(csv);
+
+   
+    var hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+    hiddenElement.target = '_blank';
+    
+    //provide the name for the CSV file to be downloaded
+    hiddenElement.download = 'Answersheet.csv';
+    hiddenElement.click();
+}
 
 
 
