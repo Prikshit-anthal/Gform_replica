@@ -1,7 +1,7 @@
 <div onload="doSetup()">
 
   {{!-- popup msg when a form created --}}
-  <div  id="myPopup" style="background-color: rgb(239, 241, 231); border: 2px solid green; visibility: hidden; ">Great! Your form is successfully created.</div>
+
 
   <div class="container">
     <div class="box form_title">
@@ -294,7 +294,36 @@
 
   }
 
+  var previous_roll_no = [];
+  db.collection("form").get().then((querySnapshot) => {
 
+    querySnapshot.forEach((doc) => {
+      var p = doc.id;
+      previous_roll_no.push(p);
+      ///  console.log(p+" "+previous_roll_no.length);
+
+    })
+  })
+
+  var roll_number = document.getElementById("title");
+
+
+  //body.addEventListener("load",init())
+
+
+  function previous_roll_check() {
+    //console.log(previous_roll_no.length);
+    for (var i = 0; i < previous_roll_no.length; i++) {
+      if (roll_number.value == previous_roll_no[i]) {
+        roll_number.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        alert("Title " + roll_number.value + " already used ");
+
+        return false;
+      }
+    }
+    return true;
+
+  }
 
 
   var count = 1;
@@ -309,7 +338,7 @@
     (e) => {
       var ch = null_check();
       // console.log(ch);
-      if (ch) {
+      if (ch && previous_roll_check()) {
         //console.log("why im here");
         //console.log(title.value);
         db.collection('form').doc(title.value).set({
@@ -373,15 +402,15 @@
 
 
         }
+        document.write(`   <div style="background-color: rgb(239, 241, 231); border: 2px solid green;  ">Great!
+    Your form is successfully created.</div>`);
       }
 
-       var popup = document.getElementById("myPopup");
-      popup.style.visibility = "visible";
-      setTimeout(function () {
-        popup.style.visibility = "hidden";
-      }, 3000)
 
     }
+
+
+
   );
 
 

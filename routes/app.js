@@ -127,6 +127,11 @@ router.get('/response', (req, res) => {
     style: 'newForm.css'
   });
 })
+router.get('/thanks', (req, res) => {
+  res.render('thanks', {
+    style: 'newForm.css'
+  });
+})
 
 
 
