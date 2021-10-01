@@ -69,7 +69,7 @@
             if (result) {
                 e.stopPropagation();
                 let id = e.target.parentElement.parentElement.parentElement.getAttribute('data-id');
-                docRef.doc(id).delete();
+
 
                 //delete uploaded files from storage
                 var cur_roll = [];
@@ -108,8 +108,25 @@
                         }
 
                     });
-            }
-        })//end of eventlistener
+
+
+                docRef.doc(id).collection("hi").get().then((querySnapshot) => {
+                    querySnapshot.forEach((doc1) => {
+                       docRef.doc(id).collection("hi").doc(doc1.id).delete();
+                        // doc.data() is never undefined for query doc snapshots
+                    });
+                });
+                docRef.doc(id).collection("ans").get().then((querySnapshot) => {
+                    querySnapshot.forEach((doc1) => {
+                       docRef.doc(id).collection("ans").doc(doc1.id).delete();
+                        // doc.data() is never undefined for query doc snapshots
+                    });
+                });
+
+                docRef.doc(id).delete();
+
+            }})
+        //end of eventlistener
 
 
         copylink.addEventListener('click', (e) => {
