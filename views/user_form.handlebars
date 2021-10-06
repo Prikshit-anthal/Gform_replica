@@ -1,10 +1,10 @@
-<div onload="doSetup()">
+<div onload="doSetup()" style="width:100%;">
   <div class="container">
     <div class="box form_title">
       <div id="title"></div>
       <div id="desc"></div>
     </div>
-  
+
     <form id="main">
       <input type="number" min="1" class="ID" id="op" data-id="ok" placeholder="Roll Number" required>
     </form>
@@ -18,13 +18,10 @@
 </div>
 <script>
 
-
+  const batch = db.batch()
   const params = (new URL(document.location)).searchParams;
   var decrypted = atob(params.get('form_title'));
   var form_title = decrypted;
-</script>
-
-<script>
   let mainContainer = document.getElementById("main");
   const title = document.querySelector('#title');
   const desc = document.querySelector('#desc');
@@ -52,7 +49,7 @@
 
   function textAreaAdjust(element) {
     element.style.height = "1px";
-    element.style.height = (10+element.scrollHeight)+"px";
+    element.style.height = (element.scrollHeight-17)+"px";
   }
   function fn(bool, e) { 
     if (bool) {
@@ -121,7 +118,7 @@
       querySnapshot.forEach((doc) => {
         var curr = doc.id;
         var len = curr.length;
-  
+
         if (curr[len - 1] == 'T') {
           var qs = doc.data().qs;
 
@@ -130,10 +127,9 @@
           additional.innerHTML += `
     
             <p class="hi">Hi </p>
-            <textarea type="text"  onkeyup="textAreaAdjust(this)" class="sample-text" oncopy="return false" onpaste="return false" oncut="return false" placeholder="Type your answer here" style="width:100%;resize:none;height:50px;"></textarea>
+            <textarea type="text"  onkeyup="textAreaAdjust(this)" oncopy="return false" onpaste="return false" oncut="return false" placeholder="Type your answer here"></textarea>
+        
             <div class="seperator">
-            </div>
-            <div class="question-control">    
             </div>
             `;
 
@@ -154,12 +150,10 @@
           additional.innerHTML = `
     
             <p class="hi">Hi</p>
-            <input type="file" class="sample-text" >
-            
+            <input type="file" onchange="checkFile(this)" class="sample-text" >
+             
             <div class="seperator">
 
-            </div>
-            <div class="question-control">
             </div>
             `;
 
@@ -185,10 +179,9 @@
             <div class="indivisual">
             </div>
             </div>
-            
-            <div class="seperator"></div>
-            <div class="question-control">
-            </div>`;
+
+            <div class="seperator"></div>`;
+
           additional.classList.add("box");
           mainContainer.appendChild(additional);
           mainContainer.childNodes[count].childNodes[1].innerHTML = qs;
@@ -218,6 +211,54 @@
           })
           count++;
         }
+
+        if (curr[len - 1] == 'S') {
+          var qs = doc.data().qs;
+          var lmin = doc.data().lmin;
+          var lmax = doc.data().lmax;
+          var min = doc.data().min;
+          var max = doc.data().max;
+
+          additional = document.createElement("div");
+          additional.className = 'scaleType';
+          additional.innerHTML += `
+    
+            <p class="hi">Hi </p>
+            <div class="scale" style="display:flex; align-items:center; justify-content:left;"> 
+              <span style="margin-right: 20px;">min</span>
+              <span style="margin-left: 20px;">max</span>
+            </div>
+            <div class="seperator">
+            </div>
+            `;
+
+          additional.classList.add("box");
+          mainContainer.appendChild(additional);
+          mainContainer.childNodes[count].childNodes[1].innerHTML = qs;
+          fn(doc.data().req, mainContainer.childNodes[count].childNodes[1]);
+
+          var scale = document.querySelector(".scale");
+          scale.childNodes[1].innerHTML = lmin;
+          scale.childNodes[3].innerHTML = lmax;
+          for(var i = max; i>=min; i--)
+          {
+            var data = document.createElement('div');
+            data.className = "linearScale";
+            data.classList.add(doc.id);
+            var opt = document.createElement('input');
+            opt.type = "radio";
+            opt.name = "scale_opt";
+            opt.value= i;
+            var optname = document.createElement('p');
+            optname.innerHTML = i;
+
+            data.appendChild(optname);
+            data.appendChild(opt);
+            scale.insertBefore(data, scale.childNodes[3]);
+          }
+          count++;
+        }
+
       });
       document.querySelector('.loader').style.display="none";
     })
@@ -233,10 +274,7 @@
           if (item !== ol) item.checked = false
       })
     }
-</script>
 
-
-<script>
   var roll_number = document.getElementById("op");
 
   function previous_roll_check() {
@@ -250,22 +288,27 @@
     return true;
   }
 
-</script>
-
-
-<script>
-
   const form = document.getElementById("main");
   const button = document.querySelector("#submit_form");
   const req = document.getElementById("switch");
 
-  var count1 = 1;
+  var count1 = 1
+  var uploadCnt = 0
+  function checkFile(e){
+    var file = (e.files)[0]; 
+    var filesize = ((file.size/1024)/1024).toFixed(4);
+    if(filesize > 10){
+      alert("filesize should be less than 10Mb")
+      e.value = ""
+      }
+  }
 
   button.addEventListener('click',
     (e) => {
 
       if (null_check() && previous_roll_check()) {
-    
+        var promises = []
+        document.querySelector('.result').innerHTML = "<div class='loader'></div>"
         var ID;
         for (var child = form.firstChild; child !== null; child = child.nextSibling) {
           if (child.className == 'ID') {
@@ -278,7 +321,6 @@
 
           //text type
           if (child.className == 'textType box') {
-            console.log(child.childNodes[3].value);
             db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection("ans_1").doc(String(count1) + "_T").set({
               ans: child.childNodes[3].value,
             });
@@ -294,9 +336,7 @@
             }
             db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection("ans_1").doc(String(count1) + "_O").set({
               ans: mcq_ans,
-
             });
-
             count1++;
           }
 
@@ -305,30 +345,57 @@
           let storageRef = firebase.storage().ref(title.innerHTML + "/" + ID + "/" + count1);
 
           if (child.className == 'uploadType box') {
+            uploadCnt++
 
             let file = child.childNodes[3].files[0];
-            console.log(file);
-            let this_ref = storageRef.child('ans');
+            const filename = file.name;
+  
+            let this_ref = storageRef.child(filename);
 
-            this_ref.put(file).then(res => {
+            promises.push(this_ref.put(file).then(res => {
             }).catch(e => {
               console.log('error uploading' + e);
-            })
+            }))
 
             db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection("ans_1").doc(String(count1) + "_U").set({
-              ans: "pdf",
+              ans: filename,
 
             });
 
             count1++;
           }
+
+          //linear scale
+          if (child.className == 'scaleType box') {
+            for(var i=3; child.childNodes[3].childNodes[i].childNodes[1]!=null; i++)
+            {
+              
+              if(child.childNodes[3].childNodes[i].childNodes[1].checked == true)
+              {
+                console.log(child.childNodes[3].childNodes[i].childNodes[1].value)
+                var lans = child.childNodes[3].childNodes[i].childNodes[1].value;
+              }
+            }
+            db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection("ans_1").doc(String(count1) + "_S").set({
+              ans: lans,
+
+            });
+            count1++;
+          }
+
         }
-        document.write(`<div class="container">
-        <div class="box form_title" style="background-color: rgb(239, 241, 231); border: 2px solid green; padding-left: 10px;">
-        <h1>Thank You</h1>
-        <p>Thank you for submitting your response.</p>
-        </div>
-        </div>`);
+        Promise.all(promises)
+        .then((uploadedMediaList) => {
+           document.querySelector('.container').innerHTML =  `<div class="container">
+          <div class="box form_title onCreateMsg" style="background-color: rgb(239, 241, 231); border: 2px solid green; padding-left: 10px;">
+          <h1>Your response has been recorded</h1>
+          <p>Thank you for submitting your response.</p>
+          </div>
+          </div>`;
+          document.querySelector('.result').innerHTML =  `<div class="create-button" id="submit_form" type="submit">Submit</div>`;
+        })
+        .catch((err)=>{});
+       
       }
 
     })

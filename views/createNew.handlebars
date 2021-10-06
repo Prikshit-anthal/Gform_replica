@@ -1,9 +1,8 @@
 <div onload="doSetup()">
 
   {{!-- popup msg when a form created --}}
-
   <div class="container">
-    <div class="box form_title" >
+    <div class="box form_title">
       <input type="text" placeholder="Title of form" id="title" class="nullCheck">
       <input type="text" placeholder="Form description" id="desc" class="nullCheck">
     </div>
@@ -15,7 +14,7 @@
       <i class="fa fa-list-ol ic" aria-hidden="true" id="multiple"></i>
       <i class="fa fa-paragraph ic" aria-hidden="true" id="paragraph"></i>
       <i class="fa fa-file ic" aria-hidden="true" id="fileUpload"></i>
-      <i class="fa fa-picture-o ic" aria-hidden="true" id="insertImage"></i>
+      <i class="fa fa-sort-numeric-desc ic" aria-hidden="true" id="linearscale"></i>
     </div>
 
     <form id="main">
@@ -34,14 +33,17 @@
           <button class="down" onclick="niche(parentNode.parentNode)" type="button"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
           <div class="required">
             <span>Required</span>
-            <input type="checkbox" id="switch" class="checkbox"  />
-            <label for="switch"  class="toggle" onclick="fn(this)" >
+            <input type="checkbox" id="switch" class="checkbox"/>
+            <label for="switch"  class="toggle" onclick="fn(this)">
             <label class="toggleHelper"></label>
           </label>
           </div>
           <div class="delete"><i class="fa fa-trash-o add" aria-hidden="true"></i></div>
           <div class="copy_question">
             <i class="fa fa-clone" aria-hidden="true"></i>
+          </div>
+          <div class="add_picture">
+            <i class="fa fa-picture-o" aria-hidden="true" ></i>
           </div>
         </div>
       </div> --}}
@@ -60,6 +62,7 @@
   let addMCQQuestion = document.getElementById('multiple');
   let addParaQuestion = document.getElementById('paragraph');
   let fileUploadQuestion = document.getElementById('fileUpload');
+  let linearScale = document.getElementById('linearscale');
   let mainContainer = document.getElementById("main");
   let body1 = document.getElementsByTagName('body');
   let deleteButtons = document.getElementsByClassName("delete");
@@ -114,26 +117,32 @@
       n1 = 9
       n2 = 11
     }
+    if(type == 'scale'){
+      n1 = 11
+      n2 = 9
+    }
     pr.childNodes[n1].childNodes[n2].addEventListener('click', (evt)=>{
       el = evt.currentTarget.parentNode.parentNode
       var tp=""
-      if(el.classList.contains('mcqType'))
+      var newel = el.cloneNode(true);
+        el.parentNode.insertBefore(newel, el.nextSibling)
+      if(el.classList.contains('scaleType'))
+        tp = 'scale'
+      if(el.classList.contains('mcqType')){
         tp = 'mcq'
-
-      newel = el.cloneNode(true);
-      el.parentNode.insertBefore(newel, el.nextSibling)
-      let options = document.getElementsByClassName('option');
-      options[options.length - 1].addEventListener('click', (e) => {
-        cheating = document.createElement("div");
-        cheating.classList.add('indivisual')
-        cheating.innerHTML = ` <input class="option-input nullCheck" placeholder = "Option"><button class="option_delete";>X</button>`;
-        e.target.parentElement.nextElementSibling.appendChild(cheating);
-        for (option_delete of byebye) {
-          option_delete.addEventListener('click', (e) => {
-            e.target.closest('div').remove();
-          })
-        }
-      })
+        let options = document.getElementsByClassName('option');
+        options[options.length - 1].addEventListener('click', (e) => {
+          cheating = document.createElement("div");
+          cheating.classList.add('indivisual')
+          cheating.innerHTML = ` <input class="option-input nullCheck" placeholder = "Option"><button class="option_delete";>X</button>`;
+          e.target.parentElement.nextElementSibling.appendChild(cheating);
+          for (option_delete of byebye) {
+            option_delete.addEventListener('click', (e) => {
+              e.target.closest('div').remove();
+            })
+          }
+        })
+      }
       setupCopyButtons(newel, tp)
       setupDeleteButtons();
       setupToggles();
@@ -170,6 +179,7 @@
       siblings[0].checked = !siblings[0].checked;
     })
   }
+
  function loadFile(nodee,img_here)
 {  //nodee.parentNode.innerHTML+="ok";
    var image = nodee.parentNode.parentNode.parentNode.parentNode;
@@ -191,7 +201,7 @@
         Type your answer here
       </div>
        
-   
+      
       <div class="seperator">
 
       </div>
@@ -210,9 +220,10 @@
         <div class="copy_question">
           <i class="fa fa-clone" aria-hidden="true"></i>
         </div>
-        <div>
-         <label style="cursor: pointer;"><input type="file"  accept="image/*" placeholder="Upload Image"  onchange="loadFile(this,event)" style="display:none;">Upload Image</label>
-         
+      
+          <div class="add_picture">
+         <label style="cursor: pointer;"><input type="file"  accept="image/*" placeholder="Upload Image"  onchange="loadFile(this,event)" style="display:none;"> <i class="fa fa-picture-o" aria-hidden="true" ></i></label>
+          
           </div>
       </div>
   `
@@ -235,7 +246,6 @@
     <div class="sample-text">
       Upload file
     </div>
-    
     <div class="seperator">
     </div>
     <div class="question-control">
@@ -253,9 +263,10 @@
       <div class="copy_question">
           <i class="fa fa-clone" aria-hidden="true"></i>
         </div>
-      <div>
-          <label style="cursor: pointer;"><input type="file"  accept="image/*" placeholder="Upload Image"  onchange="loadFile(this,event)" style="display:none;">Upload Image</label>
-          </div>  
+        <div class="add_picture">
+         <label style="cursor: pointer;"><input type="file"  accept="image/*" placeholder="Upload Image"  onchange="loadFile(this,event)" style="display:none;"> <i class="fa fa-picture-o" aria-hidden="true" ></i></label>
+          
+          </div>
     </div>
   `
     additional.classList.add("box");
@@ -271,7 +282,7 @@
     additional.className = "mcqType";
     additional.innerHTML = `
       <input  type="text" placeholder="Question" class="nullCheck">
-     <div class="img_show">
+      <div class="img_show">
         <img src="" style="width:100%">
       </div>
       <div class="plus"><i class="fa fa-plus option" aria-hidden="true"></i></div>
@@ -280,7 +291,6 @@
           <input class="option-input nullCheck"  placeholder = "Option"><button type="button" class="option_delete">X</button>
         </div>
       </div>
-      
       <div class="seperator"></div>
       <div class="question-control" style="height:150px;">
         <div class="opt-type">
@@ -301,10 +311,11 @@
         <div class="copy_question">
           <i class="fa fa-clone" aria-hidden="true"></i>
         </div>
-        <div>
-         <label style="cursor: pointer;"><input type="file"  accept="image/*" placeholder="Upload Image"  onchange="loadFile(this,event)" style="display:none;">Upload Image</label>
+       <div class="add_picture">
+         <label style="cursor: pointer;"><input type="file"  accept="image/*" placeholder="Upload Image"  onchange="loadFile(this,event)" style="display:none;"> <i class="fa fa-picture-o" aria-hidden="true" ></i></label>
           
           </div>
+          
       </div>`
     additional.classList.add("box");
     mainContainer.appendChild(additional);
@@ -328,6 +339,62 @@
     setupToggles();
     setupCopyButtons(additional, "mcq");
   })
+
+linearScale.addEventListener('click', () => {
+    additional = document.createElement("div");
+    additional.className = 'scaleType';
+    additional.innerHTML = `
+      <input type="text" placeholder="Question" class="nullCheck" />
+      <div style="margin: 10px 10px;">
+        <select id="minValue" name="minValue">
+          <option value="0">0</option>
+          <option value="1">1</option>
+        </select>
+        <span> to </span>
+        <select id="maxValue" name="maxValue">
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5" selected="selected">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
+      </div>
+
+       <input type="text" id="minLable" placeholder="Label(min value) optional"/>
+       <input type="text" id="maxLable" placeholder="Label(max value) optional"/>
+
+      <div class="seperator">
+
+      </div>
+      <div class="question-control">
+        <button class="up" onclick="upar(parentNode.parentNode)" type="button"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+        <button class="down" onclick="niche(parentNode.parentNode)" type="button"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+        <div class="required">
+          <span>Required</span>
+          <input type="checkbox" id="switch" class="checkbox"  />
+          <label for="switch"  class="toggle" onclick="fn(this)" >
+          <label class="toggleHelper"></label>
+         
+        </label>
+        </div>
+        <div class="delete"><i class="fa fa-trash-o add" aria-hidden="true"></i></div>
+        <div class="copy_question" id="element">
+          <i class="fa fa-clone" aria-hidden="true"></i>
+        </div>
+      </div>
+  `
+    additional.classList.add("box");
+    mainContainer.appendChild(additional);
+    setupDeleteButtons();
+    setupToggles();
+    setupCopyButtons(additional,"scale");
+  });
+  
+
   let possible = document.getElementById('possible');
   let options = document.getElementsByClassName('option');
   let gayab = document.getElementsByClassName('indivisual');
@@ -394,18 +461,18 @@
             date: today,
 
           });
-
+          var promises = []
           for (var child = form.firstChild; child !== null; child = child.nextSibling) {
 
             //text type
             if (child.className == 'textType box') {
               var temp = count + "_T";
       
-              db.collection('form').doc(title.value).collection("hi").doc(temp).set({
+              promises.push(db.collection('form').doc(title.value).collection("hi").doc(temp).set({
                 qs: child.childNodes[1].value,
                 req: child.childNodes[7].childNodes[5].childNodes[3].checked
 
-              });
+              }))
               count++;
             }
 
@@ -425,31 +492,53 @@
               }
             
               var mcqt = (child.childNodes[9].childNodes[1].childNodes[3].checked)?'single':'multiple'
-              db.collection('form').doc(title.value).collection("hi").doc(temp).set({
+              promises.push(db.collection('form').doc(title.value).collection("hi").doc(temp).set({
                 qs: child.childNodes[1].value,
                 op: l,
                 req: child.childNodes[9].childNodes[7].childNodes[3].checked,
                 type: mcqt
-              });
+              }));
               count++;
             }
 
             //upload file
             if (child.className == 'uploadType box') {
               var temp = count + "_U";            
-              db.collection('form').doc(title.value).collection("hi").doc(temp).set({
+              promises.push(db.collection('form').doc(title.value).collection("hi").doc(temp).set({
                 qs: child.childNodes[1].value,
                 req: child.childNodes[7].childNodes[5].childNodes[3].checked
-              });
+              }));
+              count++;
+            }
+
+            //linear scale
+            if (child.className == 'scaleType box') {
+              var temp = count + "_S";
+              var child2 = child.childNodes[3].childNodes;
+              console.log(child2);
+      
+              promises.push(db.collection('form').doc(title.value).collection("hi").doc(temp).set({
+                qs: child.childNodes[1].value,
+                min: child.childNodes[3].childNodes[1].value,
+                max: child.childNodes[3].childNodes[5].value,
+                lmin: child.childNodes[5].value,
+                lmax: child.childNodes[7].value,
+                req: child.childNodes[11].childNodes[5].childNodes[3].checked
+              }));
               count++;
             }
           }
-          document.write(` <div class="container">
-          <div class="box form_title" style="background-color: rgb(239, 241, 231); border: 2px solid green; padding-left: 10px;">
-          <h1>Great! Your form has successfully created.</h1>
-          <p>Go to "Your Forms" page to manage your form.</p>
-          </div>
-          </div>`);
+          Promise.all(promises)
+          .then((uploadedMediaList) => {
+             document.querySelector('.container').innerHTML = ` <div class="container">
+            <div class="box form_title onCreateMsg" style="background-color: rgb(239, 241, 231); border: 2px solid green; padding-left: 10px;">
+            <h1>Great! Your form has been successfully created.</h1>
+            <p>Go to <a href="/form">Your Forms</a> page to manage your form.</p>
+            </div>
+            </div>`;
+          })
+          .catch((err) => alert(err.code));
+         
         }
       }
       else{
