@@ -28,7 +28,7 @@ var firebaseConfig = {
 //   appId: "1:248727434698:web:0f5498ae740f9ff9738b33",
 //   measurementId: "G-PXQ86P5ZPQ"
 // };
-const port = process.env.PORT || 5002;
+const port = process.env.PORT || 5000;
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
