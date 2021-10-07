@@ -367,7 +367,7 @@
           //text type
           if (child.className == 'textType box') {
             db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection("ans_1").doc(String(count1) + "_T").set({
-              ans: child.childNodes[3].value,
+              ans: child.childNodes[5].value,
             });
             count1++;
           }
@@ -375,8 +375,8 @@
           //mcq type
           if (child.className == 'mcqType box') {
             var mcq_ans = [];
-            for (var i = 1; child.childNodes[3].childNodes[1].childNodes[i] != null; i++) {
-              mcq_ans[i - 1] = child.childNodes[3].childNodes[1].childNodes[i].childNodes[0].checked;
+            for (var i = 1; child.childNodes[5].childNodes[1].childNodes[i] != null; i++) {
+              mcq_ans[i - 1] = child.childNodes[5].childNodes[1].childNodes[i].childNodes[0].checked;
 
             }
             db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection("ans_1").doc(String(count1) + "_O").set({
@@ -392,7 +392,7 @@
           if (child.className == 'uploadType box') {
             uploadCnt++
 
-            let file = child.childNodes[3].files[0];
+            let file = child.childNodes[5].files[0];
             const filename = file.name;
 
             let this_ref = storageRef.child(filename);
