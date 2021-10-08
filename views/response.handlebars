@@ -72,6 +72,7 @@
           additional.className = 'textType';
           additional.innerHTML += `
                       <p class="hi">  </p>
+                      <img src="" style="width:100%" class="imimage">
                       <div class="sample-text">
                             Type your answer here
                           </div>
@@ -94,6 +95,7 @@
           additional.innerHTML = `
     
                     <p class="hi">Hi</p>
+                    <img src="" style="width:100%" class="imimage">
                      <div class="sample-text">
                       Upload file
                     </div>
@@ -117,6 +119,7 @@
           additional.className = "mcqType";
           additional.innerHTML = `
                     <p class="hi">Hi</p>
+                    <img src="" style="width:100%" class="imimage">
      
                     <div id="possible">
                       <div class="indivisual">
@@ -141,7 +144,7 @@
             opt.classList.add('res-opts');
             opt.innerHTML = "  " + i + ") " + option[i - 1];
             data.appendChild(opt);
-            mainContainer.childNodes[count].childNodes[3].childNodes[1].appendChild(data);
+            mainContainer.childNodes[count].childNodes[5].childNodes[1].appendChild(data);
           }
           count++;
         }
@@ -202,6 +205,34 @@
     .catch((error) => {
       console.log("Error getting documents: ", error);
     });
+    async function img_qs_here() {
+    //console.log("in fn");
+    let citiesRef = docRef.collection("hi");
+    let allCities = await citiesRef.get();
+    var cnt=1;
+    for (const doc of allCities.docs) {
+      var img = doc.data().img;
+      if (img != "null") {
+
+        let storageRef = firebase.storage().ref(title.innerHTML + "/" + "img_qs" + "/" + doc.id.slice(0,doc.id.length-2));
+
+        var starsRef = storageRef.child(img);
+        //console.log(hui);
+        // Get the download URL
+
+        var limks = await starsRef.getDownloadURL();
+        p = limks;
+        mainContainer.childNodes[cnt].childNodes[3].src = p;
+       // console.log("setted url");
+        
+
+      }
+      cnt++;
+
+    }
+    
+  }
+  img_qs_here();
 
 //end
 

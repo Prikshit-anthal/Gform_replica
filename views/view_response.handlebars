@@ -89,6 +89,7 @@
                     additional.className = 'textType';
                     additional.innerHTML += `
                       <p class="hi">  </p>
+                      <img src="" style="width:100%" class="imimage">
                       <div class="sample-text">
                             Type your answer here
                       </div>
@@ -111,6 +112,7 @@
                     additional.innerHTML = `
     
                     <p class="hi">Hi</p>
+                    <img src="" style="width:100%" class="imimage">
                       <a href=" " id="pdf" target="_blank" style="text-decoration: none">Click to open </a>
                     <div class="seperator"></div>
                     `;
@@ -130,7 +132,7 @@
                     additional.className = "mcqType";
                     additional.innerHTML = `
                     <p class="hi">Hi</p>
-     
+                    <img src="" style="width:100%" class="imimage">
                     <div id="possible">
                       <div class="indivisual">
                       </div>
@@ -150,7 +152,7 @@
                         opt.classList.add('res-opts');
                         opt.innerHTML = "  " + i + ") " + option[i - 1];
                         data.appendChild(opt);
-                        mainContainer.childNodes[count].childNodes[3].childNodes[1].appendChild(data);
+                        mainContainer.childNodes[count].childNodes[5].childNodes[1].appendChild(data);
                     }
                     count++;
                 }
@@ -202,6 +204,34 @@
             console.log("Error getting documents: ", error);
         });
     //end
+     async function img_qs_here() {
+    //console.log("in fn");
+    let citiesRef = docRef.collection("hi");
+    let allCities = await citiesRef.get();
+    var cnt=2;
+    for (const doc of allCities.docs) {
+      var img = doc.data().img;
+      if (img != "null") {
+
+        let storageRef = firebase.storage().ref(title.innerHTML + "/" + "img_qs" + "/" + doc.id.slice(0,doc.id.length-2));
+
+        var starsRef = storageRef.child(img);
+        //console.log(hui);
+        // Get the download URL
+
+        var limks = await starsRef.getDownloadURL();
+        p = limks;
+        mainContainer.childNodes[cnt].childNodes[3].src = p;
+       // console.log("setted url");
+        
+
+      }
+      cnt++;
+
+    }
+    
+  }
+  img_qs_here();
 
 
     //extract first answer
@@ -283,14 +313,14 @@
         });
 
     function textans(count_ans, count) {
-        mainContainer.childNodes[count].childNodes[3].innerHTML = ans[count_ans];
+        mainContainer.childNodes[count].childNodes[5].innerHTML = ans[count_ans];
     }
 
     function optans(count_ans, count) {
         var op_ans = [];
         op_ans = ans[count_ans];
 
-        var indi = mainContainer.childNodes[count].childNodes[3].childNodes[1];
+        var indi = mainContainer.childNodes[count].childNodes[5].childNodes[1];
         for (var k = 0; k < op_ans.length; k++) {
             if (op_ans[k] == true) {
                 indi.childNodes[k + 1].childNodes[0].style.color = "blue";
@@ -311,7 +341,7 @@
                     var filename = doc.data().ans;
                     let storageRef = firebase.storage().ref(title.innerHTML + "/" + roll_arr[response] + "/" + num);
                     let this_ref = storageRef.child(filename)
-                    var pdf = mainContainer.childNodes[count].childNodes[1].nextSibling.nextSibling;
+                    var pdf = mainContainer.childNodes[count].childNodes[5];
                     this_ref.getDownloadURL()
                         .then((url) => {
                             pdf.setAttribute("href", url);
@@ -325,7 +355,7 @@
     }
 
     function scaleans(count_ans, count) {
-        var data = mainContainer.childNodes[count].childNodes[3];
+        var data = mainContainer.childNodes[count].childNodes[5];
         for (var i = 3; data.childNodes[i].childNodes[0].childNodes[0] != null; i++) {
             if (data.childNodes[i].childNodes[0].innerHTML == ans[count_ans]) 
             {  
