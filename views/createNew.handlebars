@@ -11,6 +11,7 @@
       <div class="add-elements">
         add
       </div>
+      <i id="description">D</i>
       <i class="fa fa-list-ol ic" aria-hidden="true" id="multiple"></i>
       <i class="fa fa-paragraph ic" aria-hidden="true" id="paragraph"></i>
       <i class="fa fa-file ic" aria-hidden="true" id="fileUpload"></i>
@@ -61,6 +62,7 @@
 </div>
 
 <script>
+  let addDescription = document.getElementById('description');
   let addMCQQuestion = document.getElementById('multiple');
   let addParaQuestion = document.getElementById('paragraph');
   let fileUploadQuestion = document.getElementById('fileUpload');
@@ -114,6 +116,7 @@
   }
 
   function setupCopyButtons(pr, type = "") {
+    //console.log(pr.className);
     var n1 = 9, n2 = 9
     if (type == 'mcq') {
       n1 = 11
@@ -123,8 +126,13 @@
       n1 = 11
       n2 = 9
     }
-    //console.log(pr.childNodes[n1].className);
-    
+    if(type=='desc')
+    {
+      n1=11;
+      n2=7;
+    }
+   // console.log(pr.childNodes[n1].childNodes[n2].className);
+
     pr.childNodes[n1].childNodes[n2].addEventListener('click', (evt) => {
       el = evt.currentTarget.parentNode.parentNode
       var tp = ""
@@ -132,8 +140,14 @@
       el.parentNode.insertBefore(newel, el.nextSibling)
       if (el.classList.contains('scaleType'))
         tp = 'scale'
+      if(el.classList.contains('descType'))
+      {
+        tp='desc';
+      }  
       if (el.classList.contains('mcqType')) {
         tp = 'mcq'
+      
+
         let options = document.getElementsByClassName('option');
         options[options.length - 1].addEventListener('click', (e) => {
           cheating = document.createElement("div");
@@ -149,6 +163,7 @@
       }
       setupCopyButtons(newel, tp)
       setupDeleteButtons();
+      if(!el.classList.contains('descType'))
       setupToggles();
     })
   }
@@ -184,14 +199,89 @@
     })
   }
 
+  function desc_text_setup(e)
+  {
+      
+      e.parentNode.previousElementSibling.innerHTML=`
+      <input type="text" class="hui" placeholder="Text"  />
+      `;
+      e.parentNode.previousElementSibling.childNodes[1].value="";
+
+
+  }
+  function desc_videoLimk_setup(e)
+  {
+   
+    e.parentNode.previousElementSibling.previousElementSibling.innerHTML=`
+    <input type="text" class="hui" placeholder="Url"  />
+     <button type="button" onclick="desc_videoLimk_set_url(this)" class="iuh" > set url</button>
+    `
+    e.parentNode.previousElementSibling.previousElementSibling.childNodes[1].value="";
+
+  }
+
+  function desc_videoLimk_set_url(e)
+  {
+    //console.log(e.previousElementSibling.previousElementSibling.childNodes[1].id);
+    
+    
+    e.parentNode.previousElementSibling.innerHTML=`
+    <iframe width="560" height="315" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+//console.log(e.previousElementSibling.value);
+e.parentNode.previousElementSibling.childNodes[1].src=e.previousElementSibling.value;
+
+   
+
+  }
+
   function loadFile(nodee, img_here) {  //nodee.parentNode.innerHTML+="ok";
     var image = nodee.parentNode.parentNode.parentNode.parentNode;
     //console.log(image.className);
     var g = image.querySelector(".img_show");
-    // console.log(g.className);
+    //console.log(g.className);
     g.querySelector("img").src = URL.createObjectURL(img_here.target.files[0]);
   }
+  addDescription.addEventListener('click', () => {
+    additional = document.createElement("div");
+    additional.className = 'descType';
+    additional.innerHTML = `
+    <input type="text" placeholder="Description" class="nullCheck" />
+    <div class="img_show">
+        <img src="" style="width:100%">
+      </div>
+     
+      <div></div>
+      <div class="vid_limk"></div>
+      <div class="txt"></div>
 
+       <div class="question-control">
+        
+     
+        
+        
+      <div class="text" onclick="desc_text_setup(this)"><i class="fa fa-trash-o add" aria-hidden="true">t</i></div>
+
+          <div class="videoLimk" onclick="desc_videoLimk_setup(this)"><i class="fa fa-trash-o add" aria-hidden="true">v</i></div>
+
+       <div class="delete"><i class="fa fa-trash-o add" aria-hidden="true"></i></div>
+        <div class="copy_question">
+          <i class="fa fa-clone" aria-hidden="true"></i>
+        </div>
+      
+          <div class="add_picture">
+         <label style="cursor: pointer;"><input type="file" class="img_qs"  accept="image/*" placeholder="Upload Image"  onchange="loadFile(this,event)" style="display:none;"> <i class="fa fa-picture-o" aria-hidden="true" ></i></label>
+          
+          </div>
+          </div>
+      </div>
+
+    `
+    additional.classList.add("box");
+    mainContainer.appendChild(additional);
+    setupDeleteButtons();
+
+    setupCopyButtons(additional, "desc");
+  })
   addParaQuestion.addEventListener('click', () => {
     additional = document.createElement("div");
     additional.className = 'textType';
@@ -458,9 +548,9 @@
     (e) => {
       if (document.querySelectorAll('div.box').length > 1) {
         var ch = null_check();
-       
 
-             
+
+
 
         if (ch && previous_roll_check()) {
           db.collection('form').doc(title.value).set({
@@ -469,23 +559,23 @@
 
           });
           var promises = [];
-          
-          for (var  child = form.firstChild; child !== null; child = child.nextSibling) {
-            
-              
+
+          for (var child = form.firstChild; child !== null; child = child.nextSibling) {
+
+
             let storageRef = firebase.storage().ref(title.value + "/" + "img_qs" + "/" + count);
 
-            var image_name="null";
-             var file=document.getElementsByClassName("img_qs")[count-1].files[0];
-             if(file!=undefined)
-            { image_name=file.name;
-            
-            let this_ref = storageRef.child(image_name);
+            var image_name = "null";
+            var file = document.getElementsByClassName("img_qs")[count - 1].files[0];
+            if (file != undefined) {
+              image_name = file.name;
 
-            promises.push(this_ref.put(file).then(res => {
-            }).catch(e => {
-              console.log('error uploading' + e);
-            }))
+              let this_ref = storageRef.child(image_name);
+
+              promises.push(this_ref.put(file).then(res => {
+              }).catch(e => {
+                console.log('error uploading' + e);
+              }))
             }
             //text type
             if (child.className == 'textType box') {
@@ -496,7 +586,7 @@
                 img: image_name
               }))
 
-              
+
               count++;
             }
 

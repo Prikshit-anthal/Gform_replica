@@ -241,6 +241,30 @@
   .delete:hover, .copy_question:hover, .add_picture:hover{
     color:black;
   }
+  .text{
+    cursor: pointer;
+    font-size: 25px;
+    /* margin-left: 120px;  */
+    padding:5px;
+    float: left;
+    width:30px;
+    color: rgb(136, 135, 135);
+  }
+  .text:hover, .copy_question:hover, .add_picture:hover{
+    color:black;
+  }
+  .videoLimk{
+    cursor: pointer;
+    font-size: 25px;
+    /* margin-left: 120px;  */
+    padding:5px;
+    float: left;
+    width:30px;
+    color: rgb(136, 135, 135);
+  }
+  .videoLimk:hover, .copy_question:hover, .add_picture:hover{
+    color:black;
+  }
   
   .plus{
   font-size: 25px;
