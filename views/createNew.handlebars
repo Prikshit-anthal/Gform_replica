@@ -128,10 +128,10 @@
     }
     if(type=='desc')
     {
-      n1=11;
+      n1=7;
       n2=7;
     }
-   // console.log(pr.childNodes[n1].childNodes[n2].className);
+    //console.log(pr.childNodes[n1].className);
 
     pr.childNodes[n1].childNodes[n2].addEventListener('click', (evt) => {
       el = evt.currentTarget.parentNode.parentNode
@@ -200,23 +200,31 @@
   }
 
   function desc_text_setup(e)
-  {
-      
+  {  var img_erase=e.parentNode;
+    var img=img_erase.querySelector(".img_qs");
+    img.value="";
+    ////img.value="" necessary becoz on upload there is onchange fn which blocks upload of same file again. 
+    e.parentNode.previousElementSibling.previousElementSibling.childNodes[1].src="";
+    //console.log(e.parentNode.previousElementSibling.previousElementSibling.childNodes[1].className);
       e.parentNode.previousElementSibling.innerHTML=`
       <input type="text" class="hui" placeholder="Text"  />
       `;
       e.parentNode.previousElementSibling.childNodes[1].value="";
-
+      e.parentNode.previousElementSibling.className="txt";
 
   }
   function desc_videoLimk_setup(e)
   {
-   
-    e.parentNode.previousElementSibling.previousElementSibling.innerHTML=`
+    var img_erase=e.parentNode;
+    var img=img_erase.querySelector(".img_qs");
+    img.value="";
+    e.parentNode.previousElementSibling.previousElementSibling.childNodes[1].src="";
+    e.parentNode.previousElementSibling.innerHTML=`
     <input type="text" class="hui" placeholder="Url"  />
      <button type="button" onclick="desc_videoLimk_set_url(this)" class="iuh" > set url</button>
     `
-    e.parentNode.previousElementSibling.previousElementSibling.childNodes[1].value="";
+    e.parentNode.previousElementSibling.childNodes[1].value="";
+    e.parentNode.previousElementSibling.className="limk_setup";
 
   }
 
@@ -224,18 +232,25 @@
   {
     //console.log(e.previousElementSibling.previousElementSibling.childNodes[1].id);
     
-    
-    e.parentNode.previousElementSibling.innerHTML=`
+    var x=e.previousElementSibling.value;
+    var p=e.parentNode;
+    p.innerHTML=`
     <iframe width="560" height="315" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
 //console.log(e.previousElementSibling.value);
-e.parentNode.previousElementSibling.childNodes[1].src=e.previousElementSibling.value;
+p.childNodes[1].src=x;
+p.className="iframe";
 
    
 
   }
 
   function loadFile(nodee, img_here) {  //nodee.parentNode.innerHTML+="ok";
-    var image = nodee.parentNode.parentNode.parentNode.parentNode;
+   var image = nodee.parentNode.parentNode.parentNode.parentNode;
+    
+     if(nodee.parentNode.parentNode.parentNode.parentNode.className="descType box")
+     {
+       image.childNodes[5].innerHTML=``;
+     }
     //console.log(image.className);
     var g = image.querySelector(".img_show");
     //console.log(g.className);
@@ -246,13 +261,11 @@ e.parentNode.previousElementSibling.childNodes[1].src=e.previousElementSibling.v
     additional.className = 'descType';
     additional.innerHTML = `
     <input type="text" placeholder="Description" class="nullCheck" />
-    <div class="img_show">
+       <div class="img_show">
         <img src="" style="width:100%">
       </div>
      
       <div></div>
-      <div class="vid_limk"></div>
-      <div class="txt"></div>
 
        <div class="question-control">
         
@@ -576,6 +589,34 @@ e.parentNode.previousElementSibling.childNodes[1].src=e.previousElementSibling.v
               }).catch(e => {
                 console.log('error uploading' + e);
               }))
+            }
+            //desc type
+            if(child.className == 'descType box')
+            { var x=true;
+              var temp=count+"_D";
+              var vimdeo="null";
+              var txt="null";
+              if(image_name=="null")
+              {
+                   if(child.childNodes[5].className=='iframe')
+                   {
+                      vimdeo=child.childNodes[5].childNodes[1].src;
+                   }
+                   if(child.childNodes[5].className=='txt')
+                   {
+                    txt =child.childNodes[5].childNodes[1].value;
+                   }
+              }
+              promises.push(db.collection('form').doc(title.value).collection("hi").doc(temp).set({
+                desc: child.childNodes[1].value,
+                req: x,
+                img: image_name,
+                vid:vimdeo,
+                tex:txt,
+
+
+              }))
+              count++;
             }
             //text type
             if (child.className == 'textType box') {
