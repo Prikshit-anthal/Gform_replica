@@ -11,7 +11,7 @@
       <div class="add-elements">
         add
       </div>
-      <i id="description">D</i>
+      <i class="fa fa-outdent" aria-hidden="true" id="description" ></i>
       <i class="fa fa-list-ol ic" aria-hidden="true" id="multiple"></i>
       <i class="fa fa-paragraph ic" aria-hidden="true" id="paragraph"></i>
       <i class="fa fa-file ic" aria-hidden="true" id="fileUpload"></i>
@@ -220,8 +220,8 @@
     img.value="";
     e.parentNode.previousElementSibling.previousElementSibling.childNodes[1].src="";
     e.parentNode.previousElementSibling.innerHTML=`
-    <input type="text" class="hui" placeholder="Url"  />
-     <button type="button" onclick="desc_videoLimk_set_url(this)" class="iuh" > set url</button>
+    <input type="text" class="hui" placeholder="Embed Url"  />
+     <button type="button" class="but" onclick="desc_videoLimk_set_url(this)" class="iuh" > set url</button>
     `
     e.parentNode.previousElementSibling.childNodes[1].value="";
     e.parentNode.previousElementSibling.className="limk_setup";
@@ -272,9 +272,9 @@ p.className="iframe";
      
         
         
-      <div class="text" onclick="desc_text_setup(this)"><i class="fa fa-trash-o add" aria-hidden="true">t</i></div>
+      <div class="text" onclick="desc_text_setup(this)"><i class="fa fa-font" aria-hidden="true"></i></div>
 
-          <div class="videoLimk" onclick="desc_videoLimk_setup(this)"><i class="fa fa-trash-o add" aria-hidden="true">v</i></div>
+          <div class="videoLimk" onclick="desc_videoLimk_setup(this)"><i class="fa fa-youtube" aria-hidden="true"></i></div>
 
        <div class="delete"><i class="fa fa-trash-o add" aria-hidden="true"></i></div>
         <div class="copy_question">
