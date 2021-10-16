@@ -8,7 +8,7 @@
             <button class="toggle-response" type="submit" id="left" style="margin: 20px 20px;">
                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
             </button>
-            <input type="text" placeholder="1" id="currentRes">
+            <input type="number" placeholder="1" id="currentRes"></input>
             <span style="font-size:23px;">/</span>
             <span id="res_no" style="font-size:23px;"></span>
             <button class="toggle-response" type="submit" id="right" style="margin: 20px 20px;">
@@ -324,6 +324,7 @@
 
                 mainContainer.childNodes[1].childNodes[1].innerHTML = "Roll Number: " + roll_arr[response];
                 res_no.innerHTML = roll_arr.length;
+                
                 // res_no.innerHTML = response + 1;
                 count++;
 
@@ -365,6 +366,9 @@
 
             function updateValue(e) {
                 //log.textContent = e.target.value;
+                if(e.target.value>roll_arr.length&&e.target.value<1)
+                alert("enter valid range");
+                else
                 getanswer(e.target.value - 1);
             }
 
