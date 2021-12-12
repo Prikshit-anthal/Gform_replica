@@ -247,7 +247,7 @@ p.className="iframe";
   function loadFile(nodee, img_here) {  //nodee.parentNode.innerHTML+="ok";
    var image = nodee.parentNode.parentNode.parentNode.parentNode;
     
-     if(nodee.parentNode.parentNode.parentNode.parentNode.className="descType box")
+     if(nodee.parentNode.parentNode.parentNode.parentNode.className=="descType box")
      {
        image.childNodes[5].innerHTML=``;
      }
@@ -257,6 +257,8 @@ p.className="iframe";
     g.querySelector("img").src = URL.createObjectURL(img_here.target.files[0]);
   }
   addDescription.addEventListener('click', () => {
+     alert("description feature blocked currently :( under error removal process");
+    /*
     additional = document.createElement("div");
     additional.className = 'descType';
     additional.innerHTML = `
@@ -294,6 +296,7 @@ p.className="iframe";
     setupDeleteButtons();
 
     setupCopyButtons(additional, "desc");
+    */
   })
   addParaQuestion.addEventListener('click', () => {
     additional = document.createElement("div");
@@ -447,6 +450,8 @@ p.className="iframe";
   })
 
   linearScale.addEventListener('click', () => {
+     alert("scalean feature blocked currently :( under error removal process");
+    /*
     additional = document.createElement("div");
     additional.className = 'scaleType';
     additional.innerHTML = `
@@ -498,6 +503,7 @@ p.className="iframe";
     setupDeleteButtons();
     setupToggles();
     setupCopyButtons(additional, "scale");
+    */
   });
 
 
@@ -579,7 +585,10 @@ p.className="iframe";
             let storageRef = firebase.storage().ref(title.value + "/" + "img_qs" + "/" + count);
 
             var image_name = "null";
+            if(child.className != 'scaleType box'){
+             //console.log(document.getElementsByClassName("img_qs"));
             var file = document.getElementsByClassName("img_qs")[count - 1].files[0];
+           
             if (file != undefined) {
               image_name = file.name;
 
@@ -589,6 +598,7 @@ p.className="iframe";
               }).catch(e => {
                 console.log('error uploading' + e);
               }))
+            }
             }
             //desc type
             if(child.className == 'descType box')
