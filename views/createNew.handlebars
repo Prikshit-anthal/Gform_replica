@@ -450,8 +450,8 @@ p.className="iframe";
   })
 
   linearScale.addEventListener('click', () => {
-     alert("scalean feature blocked currently :( under error removal process");
-    /*
+     //alert("scalean feature blocked currently :( under error removal process");
+    
     additional = document.createElement("div");
     additional.className = 'scaleType';
     additional.innerHTML = `
@@ -503,7 +503,7 @@ p.className="iframe";
     setupDeleteButtons();
     setupToggles();
     setupCopyButtons(additional, "scale");
-    */
+    
   });
 
 
@@ -585,7 +585,8 @@ p.className="iframe";
             let storageRef = firebase.storage().ref(title.value + "/" + "img_qs" + "/" + count);
 
             var image_name = "null";
-            if(child.className != 'scaleType box'){
+            console.log(document.getElementsByClassName("img_qs").length);
+            if(child.className != 'scaleType box' && document.getElementsByClassName("img_qs").length!=0){
              //console.log(document.getElementsByClassName("img_qs"));
             var file = document.getElementsByClassName("img_qs")[count - 1].files[0];
            
@@ -690,7 +691,8 @@ p.className="iframe";
                 max: child.childNodes[3].childNodes[5].value,
                 lmin: child.childNodes[5].value,
                 lmax: child.childNodes[7].value,
-                req: child.childNodes[11].childNodes[5].childNodes[3].checked
+                req: child.childNodes[11].childNodes[5].childNodes[3].checked,
+                img: image_name
               }));
               count++;
             }

@@ -206,6 +206,7 @@
                 }
 
                 if (curr[len - 1] == 'S') {
+                    var id=doc.id;
                     var qs = doc.data().qs;
                     var lmin = doc.data().lmin;
                     var lmax = doc.data().lmax;
@@ -230,13 +231,13 @@
                     mainContainer.childNodes[count].childNodes[1].innerHTML = qs;
                     fn(doc.data().req, mainContainer.childNodes[count].childNodes[1]);
 
-                    var scale = document.querySelector(".scale");
+                    var scale = mainContainer.childNodes[count].childNodes[3];
                     scale.childNodes[1].innerHTML = lmin;
                     scale.childNodes[3].innerHTML = lmax;
                     for (var i = max; i >= min; i--) {
                         var data = document.createElement('div');
                         data.className = "linearScale";
-                        data.classList.add(doc.id);
+                        data.classList.add(id);
                         var optname = document.createElement('p');
                         optname.innerHTML = i;
 
@@ -417,7 +418,8 @@
     }
 
     function scaleans(count_ans, count) {
-        var data = mainContainer.childNodes[count].childNodes[5];
+        var data = mainContainer.childNodes[count].childNodes[3];
+       // console.log(data.childNodes[i].childNodes[0].childNodes[0]);
         for (var i = 3; data.childNodes[i].childNodes[0].childNodes[0] != null; i++) {
             if (data.childNodes[i].childNodes[0].innerHTML == ans[count_ans]) {
                 data.childNodes[i].childNodes[0].style.color = "blue";
