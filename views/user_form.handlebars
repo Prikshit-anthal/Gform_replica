@@ -51,13 +51,24 @@
     element.style.height = "1px";
     element.style.height = (element.scrollHeight - 17) + "px";
   }
-  function fn(bool, e) {
+  function fn(bool, node) {
     if (bool) {
       additional.childNodes[1].innerHTML += `<span class='star'>*</span>`;
 
-      if (additional.className != "mcqType box") {
-        additional.childNodes[3].setAttribute("data-id", "ok");
+      if (additional.className != "mcqType box" || additional.className != "scaleType box") {
+        additional.childNodes[5].setAttribute("data-id", "ok");
       }
+      if (additional.className == "scaleType box") {
+        additional.setAttribute("data-id", "ok");
+
+
+      }
+      if (additional.className == "mcqType box") {
+        additional.setAttribute("data-id", "ok");
+
+
+      }
+
     }
   }
 
@@ -90,6 +101,25 @@
           return false;
         }
       }
+      if (li[i].className == 'scaleType box') {
+        var checkRadio = li[i].querySelector(
+          'input[name="scale_opt"]:checked');
+        if (checkRadio == null) {
+          li[i].scrollIntoView({ behavior: 'smooth', block: 'end' });
+          alert("fill up required feilds");
+          return false;
+        }
+      }
+      if(li[i].className=='mcqType box')
+      {
+         var checkRadio = li[i].querySelector(
+          'input[name="options_here"]:checked');
+        if (checkRadio == null) {
+          li[i].scrollIntoView({ behavior: 'smooth', block: 'end' });
+          alert("fill up required feilds");
+          return false;
+        }
+      }
     }
     return true;
   }
@@ -115,21 +145,21 @@
   });
 
 
-function sayHi(count,doc) {
-            //alert('Hello, Mr. Universe!');
-             var video = doc.data().vid;
-          var text = doc.data().tex;
-           // console.log(video+" "+text);
-            if (video != "null") {
-            mainContainer.childNodes[count].childNodes[5].innerHTML = `
+  function sayHi(count, doc) {
+    //alert('Hello, Mr. Universe!');
+    var video = doc.data().vid;
+    var text = doc.data().tex;
+    // console.log(video+" "+text);
+    if (video != "null") {
+      mainContainer.childNodes[count].childNodes[5].innerHTML = `
             <iframe width="560" height="315" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-            mainContainer.childNodes[count].childNodes[5].childNodes[1].src = video;
-          }
-          if (text != "null") {
-             mainContainer.childNodes[count].childNodes[5].innerHTML = text;
-          }
-           
-          }
+      mainContainer.childNodes[count].childNodes[5].childNodes[1].src = video;
+    }
+    if (text != "null") {
+      mainContainer.childNodes[count].childNodes[5].innerHTML = text;
+    }
+
+  }
 
   docRef.collection("hi").get()
     .then((querySnapshot) => {
@@ -141,8 +171,8 @@ function sayHi(count,doc) {
         //var op_vro = cnt.toString();
         let storageRef = firebase.storage().ref(title.innerHTML + "/" + "img_qs" + "/");
         if (curr[len - 1] == 'D') {
-          
-          var desc=doc.data().desc;
+
+          var desc = doc.data().desc;
 
           additional = document.createElement("div");
           additional.className = 'descType';
@@ -156,12 +186,12 @@ function sayHi(count,doc) {
           additional.classList.add("box");
           mainContainer.appendChild(additional);
           mainContainer.childNodes[count].childNodes[1].innerHTML = doc.data().desc;
-        //  console.log(doc.data().desc);
-           
-          sayHi(count,doc);
-          
+          //  console.log(doc.data().desc);
 
-          
+          sayHi(count, doc);
+
+
+
 
           count++;
         }
@@ -406,6 +436,12 @@ function sayHi(count,doc) {
               roll: ID,
             });
           }
+          if (child.className == 'descType box') {
+            db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection("ans_1").doc(String(count1) + "_D").set({
+              ans: "ImDescMyAnsDoesntMatter",
+            });
+            count1++;
+          }
 
 
           //text type
@@ -435,16 +471,19 @@ function sayHi(count,doc) {
 
           if (child.className == 'uploadType box') {
             uploadCnt++
-
+            var filename = "null";
             let file = child.childNodes[5].files[0];
-            const filename = file.name;
+            console.log(file);
+            if (file != null) {
+              filename = file.name;
 
-            let this_ref = storageRef.child(filename);
+              let this_ref = storageRef.child(filename);
 
-            promises.push(this_ref.put(file).then(res => {
-            }).catch(e => {
-              console.log('error uploading' + e);
-            }))
+              promises.push(this_ref.put(file).then(res => {
+              }).catch(e => {
+                console.log('error uploading' + e);
+              }))
+            }
 
             db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection("ans_1").doc(String(count1) + "_U").set({
               ans: filename,
@@ -456,11 +495,12 @@ function sayHi(count,doc) {
 
           //linear scale
           if (child.className == 'scaleType box') {
+            var lans = "null"
             for (var i = 3; child.childNodes[3].childNodes[i].childNodes[1] != null; i++) {
 
               if (child.childNodes[3].childNodes[i].childNodes[1].checked == true) {
                 console.log(child.childNodes[3].childNodes[i].childNodes[1].value)
-                var lans = child.childNodes[3].childNodes[i].childNodes[1].value;
+                lans = child.childNodes[3].childNodes[i].childNodes[1].value;
               }
             }
             db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection("ans_1").doc(String(count1) + "_S").set({

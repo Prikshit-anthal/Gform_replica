@@ -358,6 +358,9 @@
                                 scaleans(count_ans, count);
                                 count_ans++, count++;
                             }
+                            if (curr[l - 1] == 'D'){
+                                count_ans++, count++;
+                            }
                         }
                     });
                 document.querySelector('.loader').style.display = "none";
@@ -384,6 +387,7 @@
         op_ans = ans[count_ans];
 
         var indi = mainContainer.childNodes[count].childNodes[5].childNodes[1];
+       // console.log(mainContainer.childNodes[count].className)
         for (var k = 0; k < op_ans.length; k++) {
             if (op_ans[k] == true) {
                 indi.childNodes[k + 1].childNodes[0].style.color = "blue";
@@ -402,6 +406,8 @@
             docs.forEach((doc) => {
                 if (doc.id == (num + "_U")) {
                     var filename = doc.data().ans;
+                    if(filename!="null"){
+                    
                     let storageRef = firebase.storage().ref(title.innerHTML + "/" + roll_arr[response] + "/" + num);
                     let this_ref = storageRef.child(filename)
                     var pdf = mainContainer.childNodes[count].childNodes[5];
@@ -411,6 +417,19 @@
                         }).catch(e => {
                             console.log('error uploading' + e);
                         })
+                }
+                
+                else{
+                    //console.log("im here")
+                    var pdf = mainContainer.childNodes[count].childNodes[5];
+                    pdf.setAttribute("alt", "no file uploaded")
+                    pdf.setAttribute("href", "$")
+                    pdf.innerHTML="no file uploaded"
+                    pdf.style.pointerEvents="none";
+                    //to stop a functionality
+
+
+                }
                 }
             })
         })

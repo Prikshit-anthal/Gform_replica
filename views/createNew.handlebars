@@ -36,8 +36,8 @@
               aria-hidden="true"></i></button>
           <div class="required">
             <span>Required</span>
-            <input type="checkbox" id="switch" class="checkbox" />
-            <label for="switch" class="toggle" onclick="fn(this)">
+            <input type="checkbox"  class="checkbox" />
+            <label  class="toggle" onclick="fn(this)">
               <label class="toggleHelper"></label>
             </label>
           </div>
@@ -256,9 +256,11 @@ p.className="iframe";
     //console.log(g.className);
     g.querySelector("img").src = URL.createObjectURL(img_here.target.files[0]);
   }
+
+
   addDescription.addEventListener('click', () => {
-     alert("description feature blocked currently :( under error removal process");
-    /*
+     //alert("description feature blocked currently :( under error removal process");
+    
     additional = document.createElement("div");
     additional.className = 'descType';
     additional.innerHTML = `
@@ -296,7 +298,7 @@ p.className="iframe";
     setupDeleteButtons();
 
     setupCopyButtons(additional, "desc");
-    */
+    
   })
   addParaQuestion.addEventListener('click', () => {
     additional = document.createElement("div");
@@ -319,8 +321,8 @@ p.className="iframe";
         <button class="down" onclick="niche(parentNode.parentNode)" type="button"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
         <div class="required">
           <span>Required</span>
-          <input type="checkbox" id="switch" class="checkbox"  />
-          <label for="switch"  class="toggle" onclick="fn(this)" >
+          <input type="checkbox"  class="checkbox"  />
+          <label   class="toggle" onclick="fn(this)" >
           <label class="toggleHelper"></label>
          
         </label>
@@ -362,8 +364,8 @@ p.className="iframe";
       <button class="down" onclick="niche(parentNode.parentNode)" type="button"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
       <div class="required">
         <span>Required</span>
-         <input type="checkbox" id="switch" class="checkbox"  />
-          <label for="switch"  class="toggle" onclick="fn(this)" >
+         <input type="checkbox"  class="checkbox"  />
+          <label   class="toggle" onclick="fn(this)" >
         <label class="toggleHelper"></label>
         
       </label>
@@ -410,8 +412,8 @@ p.className="iframe";
         <button class="down" onclick="niche(parentNode.parentNode)" type="button"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
         <div class="required">
           <span>Required</span>
-          <input type="checkbox" id="switch" class="checkbox" />
-          <label for="switch" class="toggle">
+          <input type="checkbox"  class="checkbox" />
+          <label  class="toggle" onclick="fn(this)">
           <label class="toggleHelper"></label>
         </label>
         </div>
@@ -475,8 +477,8 @@ p.className="iframe";
         </select>
       </div>
 
-       <input type="text" id="minLable" placeholder="Label(min value) optional"/>
-       <input type="text" id="maxLable" placeholder="Label(max value) optional"/>
+       <input type="text" id="minLable" class="nullCheck" placeholder="Label(min value) optional"/>
+       <input type="text" id="maxLable" class="nullCheck" placeholder="Label(max value) optional"/>
 
       <div class="seperator">
 
@@ -484,14 +486,14 @@ p.className="iframe";
       <div class="question-control">
         <button class="up" onclick="upar(parentNode.parentNode)" type="button"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
         <button class="down" onclick="niche(parentNode.parentNode)" type="button"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
-        <div class="required">
-          <span>Required</span>
-          <input type="checkbox" id="switch" class="checkbox"  />
-          <label for="switch"  class="toggle" onclick="fn(this)" >
-          <label class="toggleHelper"></label>
-         
-        </label>
-        </div>
+         <div class="required">
+        <span>Required</span>
+         <input type="checkbox"  class="checkbox"  />
+          <label   class="toggle" onclick="fn(this)" >
+        <label class="toggleHelper"></label>
+        
+      </label>
+      </div>
         <div class="delete"><i class="fa fa-trash-o add" aria-hidden="true"></i></div>
         <div class="copy_question" id="element">
           <i class="fa fa-clone" aria-hidden="true"></i>
@@ -519,6 +521,7 @@ p.className="iframe";
   //this se pass kra element kooo
   function fn(this_reference) {
     this_reference.previousElementSibling.checked = !this_reference.previousElementSibling.checked;
+  //  console.log(this_reference.previousElementSibling.checked );
   }
 
   function null_check() {
@@ -578,9 +581,12 @@ p.className="iframe";
 
           });
           var promises = [];
+          var count=1;
+          for (var child = form.firstChild; child != null; child = child.nextSibling) {
+            
+            
 
-          for (var child = form.firstChild; child !== null; child = child.nextSibling) {
-
+         
 
             let storageRef = firebase.storage().ref(title.value + "/" + "img_qs" + "/" + count);
 
@@ -695,7 +701,8 @@ p.className="iframe";
                 img: image_name
               }));
               count++;
-            }
+           
+            } 
           }
           Promise.all(promises)
             .then((uploadedMediaList) => {
