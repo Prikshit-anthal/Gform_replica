@@ -8,9 +8,10 @@
     <div class="box" id="show">
         <a class="a" href="/newForm"><i class="fa fa-plus-square-o" aria-hidden="true" style="font-size: 30px;"></i></a>
         <div class="hide">Create New form</div>
-        <h1><img src="https://img.icons8.com/ios-filled/50/000000/form.png"/><span style="margin-left: 20px;padding-top:5px;">Your Forms</span></h1>
+        <h1><img src="https://img.icons8.com/ios-filled/50/000000/form.png" /><span
+                style="margin-left: 20px;padding-top:5px;">Your Forms</span></h1>
         <div class="loader">
-           
+
         </div>
         <div class="no-responses">
 
@@ -28,7 +29,7 @@
         var date = doc.data().date;
         doc_id = doc.id;
         additional = document.createElement("div");
-        additional.className = 'row';;
+        additional.className = 'row';
         additional.setAttribute("data-id", String(doc.id));
         additional.innerHTML += `
           <a  href="" id="response" class="omg" onclick="getresponse(this)" >
@@ -75,6 +76,8 @@
                             // doc.data() is never undefined for query doc snapshots
                         });
 
+                        ///deleting uploaded ans
+
                         for (var k = 0; k < cur_roll.length; k++) {
                             let num = cur_roll[k];
                             db.collection('form').doc(id).collection("ans").doc(num).collection("ans_1").get()
@@ -82,12 +85,14 @@
                                     querySnapshot.forEach((doc) => {
 
                                         var curr = doc.id;
+                                        var ans=doc.data().ans;
                                         var len = curr.length;
+
                                         if (curr[len - 1] == 'U') {
 
 
                                             let storageRef = firebase.storage().ref(id + "/" + num + "/" + curr[len - 3] + "/");
-                                            let this_ref = storageRef.child('ans');
+                                            let this_ref = storageRef.child(ans);
                                             this_ref.delete().then(() => {
                                                 console.log("Delete Successfully");
                                             }).catch((error) => {
@@ -98,22 +103,62 @@
                                     });
                                 });
                         }
+
+
+
                     });
+                db.collection('form').doc(id).collection("hi").get()
+                    .then((querySnapshot) => {
+                        querySnapshot.forEach((doc) => {
+                            var img = doc.data().img;
+                            var curr = doc.id;
+                            var len = curr.length;
+                            if (img != "null") {
+                                let storageRef = firebase.storage().ref(id + "/" + "img_qs" + "/" + curr[len - 3] + "/");
+                                let this_ref = storageRef.child(img);
+                                this_ref.delete().then(() => {
+                                    console.log("Delete Successfully");
+                                }).catch((error) => {
+                                    console.log("Error getting documents: ", error);
+                                });
+                            }
+
+                        })
+
+                    });
+
+
 
                 docRef.doc(id).collection("hi").get().then((querySnapshot) => {
                     querySnapshot.forEach((doc1) => {
-                       docRef.doc(id).collection("hi").doc(doc1.id).delete();
+                        docRef.doc(id).collection("hi").doc(doc1.id).delete();
                         // doc.data() is never undefined for query doc snapshots
                     });
                 });
                 docRef.doc(id).collection("ans").get().then((querySnapshot) => {
                     querySnapshot.forEach((doc1) => {
-                       docRef.doc(id).collection("ans").doc(doc1.id).delete();
+                        // console.log(doc1.id+" h");
+                        docRef.doc(id).collection("ans").doc(doc1.id).collection("ans_1").get().then((realDoc) => {
+                            console.log(realDoc);
+                            realDoc.forEach((dol) => {
+
+                                console.log('hi ' + dol.id);
+
+                                docRef.doc(id).collection("ans").doc(doc1.id).collection("ans_1").doc(dol.id).delete();
+                                //dol.delete();
+
+                            })
+
+                        })
+
+                        docRef.doc(id).collection("ans").doc(doc1.id).delete();
+                        //  docRef.doc(id).collection("ans").doc(doc1.id).collection("ans_"+doc1.id).delete();
                         // doc.data() is never undefined for query doc snapshots
                     });
                 });
                 docRef.doc(id).delete();
-            }})  //add of event listener
+            }
+        })  //add of event listener
 
         copylink.addEventListener('click', (e) => {
             e.preventDefault();
@@ -126,7 +171,7 @@
             copyText = e.target.parentElement.href;
             navigator.clipboard.writeText(copyText);
             alert("Copied the text: " + copyText);
-        })  
+        })
     }  //end of render data function
 
     var dta = document.getElementById("show");
@@ -145,7 +190,7 @@
             }
             cnt++;
         })
-        if(cnt == 0){
+        if (cnt == 0) {
             document.querySelector('.no-responses').textContent = "There are no previous forms!";
             document.querySelector('.no-responses').style.fontSize = "18px";
             document.querySelector('.no-responses').style.textAlign = "center";
@@ -220,7 +265,7 @@
 
     function download_csv_file(csvFileData) {
 
-        if(csvFileData.length == 0){
+        if (csvFileData.length == 0) {
             alert("There are no responses yet!");
             return;
         }
