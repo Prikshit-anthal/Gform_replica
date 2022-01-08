@@ -33,6 +33,14 @@
     margin-right: auto;
     width:800px;
 }
+@media screen and (max-width: 842px) {
+  .container{
+    
+    width: 95%;
+    
+  }
+  
+  }
 
 a {
     text-decoration: none;
