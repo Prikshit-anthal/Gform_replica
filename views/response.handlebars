@@ -26,8 +26,10 @@
 
 <script>
   const params = (new URL(document.location)).searchParams;
-  var decrypted = params.get('form_title');
-  var form_title = decrypted;
+   var decrypted = atob(params.get('form_timestamp'));
+  var form_timestamp = decrypted;
+  var decrypted_title = atob(params.get('form_title'));
+  var form_title = decrypted_title;
 
   let mainContainer = document.getElementById("main");
   const title = document.querySelector('#title');
@@ -45,7 +47,7 @@
   }//end
   
 
-  var docRef = db.collection('form').doc(title.innerHTML);
+ var docRef = db.collection('form').doc(form_timestamp);
   docRef.get().then((doc) => {
     desc.innerHTML = doc.data().desc;
 
@@ -203,7 +205,7 @@
           additional.innerHTML += `
     
             <p class="hi">Hi </p>
-            <div class="scale" style="display:flex; align-items:center; justify-content:left;"> 
+            <div class="scale" style="display:flex; align-items:center; justify-content:left;" data-id="que-id">
               <span style="margin-right: 20px;">min</span>
               <span style="margin-left: 20px;">max</span>
             </div>
@@ -256,7 +258,7 @@
       var img = doc.data().img;
       if (img != "null") {
 
-        let storageRef = firebase.storage().ref(title.innerHTML + "/" + "img_qs" + "/" + doc.id.slice(0,doc.id.length-2));
+        let storageRef = firebase.storage().ref(form_timestamp + "/" + "img_qs" + "/" + doc.id.slice(0,doc.id.length-2));
 
         var starsRef = storageRef.child(img);
         //console.log(hui);
@@ -294,7 +296,7 @@
       alert("There are no responses for this form!")
     }
     else {
-      window.location.href = "/view_response?form_title=" + form_title;
+     window.location.href = "/view_response?form_timestamp=" + form_timestamp + "&form_title=" + form_title;
     }
   }
 

@@ -40,8 +40,10 @@
 
 <script>
     const params = (new URL(document.location)).searchParams;
-    var decrypted = params.get('form_title');
-    var form_title = decrypted;
+    var decrypted = params.get('form_timestamp');
+    var form_timestamp = decrypted;
+    var decrypted_title = params.get('form_title');
+    var form_title = decrypted_title;
 
     let mainContainer = document.getElementById("main");
     const title = document.querySelector('#title');
@@ -58,7 +60,7 @@
         }
     }//end
 
-    var docRef = db.collection('form').doc(title.innerHTML);
+    var docRef = db.collection('form').doc(form_timestamp);
     docRef.get().then((doc) => {
         desc.innerHTML = doc.data().desc;
 
@@ -273,7 +275,7 @@
             var img = doc.data().img;
             if (img != "null") {
 
-                let storageRef = firebase.storage().ref(title.innerHTML + "/" + "img_qs" + "/" + doc.id.slice(0, doc.id.length - 2));
+                let storageRef = firebase.storage().ref(form_timestamp + "/" + "img_qs" + "/" + doc.id.slice(0, doc.id.length - 2));
 
                 var starsRef = storageRef.child(img);
                 //console.log(hui);
@@ -342,7 +344,7 @@
                 // res_no.innerHTML = response + 1;
                 count++;
 
-                db.collection("form").doc(title.innerHTML).collection("ans").doc(roll_arr[response]).collection("ans_1").get()
+                db.collection("form").doc(form_timestamp).collection("ans").doc(roll_arr[response]).collection("ans_1").get()
                     .then((querySnapshot) => {
                         querySnapshot.forEach((doc) => {
                             ansid[j] = doc.id;
@@ -406,9 +408,11 @@
         for (var k = 0; k < op_ans.length; k++) {
             if (op_ans[k] == true) {
                 indi.childNodes[k + 1].childNodes[0].style.color = "blue";
+                indi.childNodes[k + 1].childNodes[0].style.fontSize = "17px";
             }
             if (op_ans[k] == false) {
                 indi.childNodes[k + 1].childNodes[0].style.color = "black";
+                indi.childNodes[k + 1].childNodes[0].style.fontSize = "15px";
             }
         }
     }
@@ -417,13 +421,13 @@
     function uploadans(count_ans, count) {
 
         let num = count_ans + 1;
-        db.collection('form').doc(title.innerHTML).collection("ans").doc(roll_arr[response]).collection("ans_1").get().then((docs) => {
+        db.collection('form').doc(form_timestamp).collection("ans").doc(roll_arr[response]).collection("ans_1").get().then((docs) => {
             docs.forEach((doc) => {
                 if (doc.id == (num + "_U")) {
                     var filename = doc.data().ans;
                     if(filename!="null"){
                     
-                    let storageRef = firebase.storage().ref(title.innerHTML + "/" + roll_arr[response] + "/" + num);
+                    let storageRef = firebase.storage().ref(form_timestamp  + "/" + roll_arr[response] + "/" + num);
                     let this_ref = storageRef.child(filename)
                     var pdf = mainContainer.childNodes[count].childNodes[5];
                     this_ref.getDownloadURL()

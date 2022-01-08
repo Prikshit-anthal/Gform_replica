@@ -54,14 +54,17 @@
 
     <div class="result">
       <div class="create-button" id="submit_form">Create</div>
-      <a href='/form'>
-        <div class="cancel-button">Cancel</div>
-      </a>
+      
+        <div class="cancel-button" onclick="hi()">Cancel</div>
+      
     </div>
   </div>
 </div>
 
 <script>
+  
+  function hi(){window.location.href="/form"};
+
   let addDescription = document.getElementById('description');
   let addMCQQuestion = document.getElementById('multiple');
   let addParaQuestion = document.getElementById('paragraph');
@@ -438,7 +441,7 @@ p.className="iframe";
     options[options.length - 1].addEventListener('click', (e) => {
       cheating = document.createElement("div");
       cheating.classList.add('indivisual')
-      cheating.innerHTML = ` <input class="option-input nullCheck" placeholder = "Option"><button class="option_delete";>X</button>`;
+      cheating.innerHTML = ` <input class="option-input nullCheck" placeholder = "Option"><button class="option_delete"   type="button">X</button>`;
       e.target.parentElement.nextElementSibling.appendChild(cheating);
       for (option_delete of byebye) {
         option_delete.addEventListener('click', (e) => {
@@ -575,7 +578,10 @@ p.className="iframe";
 
 
         if (ch && previous_roll_check()) {
-          db.collection('form').doc(title.value).set({
+          var timestamp = String(new Date().getTime());
+          console.log(timestamp);
+          db.collection('form').doc(timestamp).set({
+            title: title.value,
             desc: desc.value,
             date: today,
 
@@ -588,7 +594,7 @@ p.className="iframe";
 
          
 
-            let storageRef = firebase.storage().ref(title.value + "/" + "img_qs" + "/" + count);
+            let storageRef = firebase.storage().ref(timestamp + "/" + "img_qs" + "/" + count);
 
             var image_name = "null";
             console.log(document.getElementsByClassName("img_qs").length);
@@ -624,7 +630,7 @@ p.className="iframe";
                     txt =child.childNodes[5].childNodes[1].value;
                    }
               }
-              promises.push(db.collection('form').doc(title.value).collection("hi").doc(temp).set({
+              promises.push(db.collection('form').doc(timestamp).collection("hi").doc(temp).set({
                 desc: child.childNodes[1].value,
                 req: x,
                 img: image_name,
@@ -638,7 +644,7 @@ p.className="iframe";
             //text type
             if (child.className == 'textType box') {
               var temp = count + "_T";
-              promises.push(db.collection('form').doc(title.value).collection("hi").doc(temp).set({
+              promises.push(db.collection('form').doc(timestamp).collection("hi").doc(temp).set({
                 qs: child.childNodes[1].value,
                 req: child.childNodes[9].childNodes[5].childNodes[3].checked,
                 img: image_name
@@ -664,7 +670,7 @@ p.className="iframe";
               }
 
               var mcqt = (child.childNodes[11].childNodes[1].childNodes[3].checked) ? 'single' : 'multiple'
-              promises.push(db.collection('form').doc(title.value).collection("hi").doc(temp).set({
+              promises.push(db.collection('form').doc(timestamp).collection("hi").doc(temp).set({
                 qs: child.childNodes[1].value,
                 op: l,
                 req: child.childNodes[11].childNodes[7].childNodes[3].checked,
@@ -677,7 +683,7 @@ p.className="iframe";
             //upload file
             if (child.className == 'uploadType box') {
               var temp = count + "_U";
-              promises.push(db.collection('form').doc(title.value).collection("hi").doc(temp).set({
+              promises.push(db.collection('form').doc(timestamp).collection("hi").doc(temp).set({
                 qs: child.childNodes[1].value,
                 req: child.childNodes[9].childNodes[5].childNodes[3].checked,
                 img: image_name
@@ -691,7 +697,7 @@ p.className="iframe";
               var child2 = child.childNodes[3].childNodes;
               console.log(child2);
 
-              promises.push(db.collection('form').doc(title.value).collection("hi").doc(temp).set({
+              promises.push(db.collection('form').doc(timestamp).collection("hi").doc(temp).set({
                 qs: child.childNodes[1].value,
                 min: child.childNodes[3].childNodes[1].value,
                 max: child.childNodes[3].childNodes[5].value,

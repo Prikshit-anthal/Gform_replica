@@ -20,8 +20,10 @@
 
   const batch = db.batch()
   const params = (new URL(document.location)).searchParams;
-  var decrypted = atob(params.get('form_title'));
-  var form_title = decrypted;
+   var decrypted = atob(params.get('form_timestamp'));
+  var form_timestamp = decrypted;
+  var decrypted_title = atob(params.get('form_title'));
+  var form_title = decrypted_title;
   let mainContainer = document.getElementById("main");
   const title = document.querySelector('#title');
   const desc = document.querySelector('#desc');
@@ -55,7 +57,7 @@
     if (bool) {
       additional.childNodes[1].innerHTML += `<span class='star'>*</span>`;
 
-      if (additional.className != "mcqType box" || additional.className != "scaleType box") {
+      if (additional.className != "mcqType box" && additional.className != "scaleType box") {
         additional.childNodes[5].setAttribute("data-id", "ok");
       }
       if (additional.className == "scaleType box") {
@@ -106,7 +108,7 @@
           'input[name="scale_opt"]:checked');
         if (checkRadio == null) {
           li[i].scrollIntoView({ behavior: 'smooth', block: 'end' });
-          alert("fill up required feilds");
+          alert("fill up required feilds ");
           return false;
         }
       }
@@ -125,7 +127,7 @@
   }
 
 
-  var docRef = db.collection('form').doc(title.innerHTML);
+  var docRef = db.collection('form').doc(form_timestamp);
   var previous_roll_no = [];
   var count = 3;
   var name = [];
@@ -169,7 +171,7 @@
         var hui = doc.data().img;
         var im_url = "null";
         //var op_vro = cnt.toString();
-        let storageRef = firebase.storage().ref(title.innerHTML + "/" + "img_qs" + "/");
+        let storageRef = firebase.storage().ref(form_timestamp + "/" + "img_qs" + "/");
         if (curr[len - 1] == 'D') {
 
           var desc = doc.data().desc;
@@ -365,7 +367,7 @@
       var img = doc.data().img;
       if (img != "null") {
 
-        let storageRef = firebase.storage().ref(title.innerHTML + "/" + "img_qs" + "/" + doc.id.slice(0, doc.id.length - 2));
+        let storageRef = firebase.storage().ref(form_timestamp + "/" + "img_qs" + "/" + doc.id.slice(0, doc.id.length - 2));
 
         var starsRef = storageRef.child(img);
         //console.log(hui);
@@ -432,12 +434,12 @@
         for (var child = form.firstChild; child !== null; child = child.nextSibling) {
           if (child.className == 'ID') {
             ID = child.value;
-            db.collection("form").doc(title.innerHTML).collection("ans").doc(ID).set({
+            db.collection("form").doc(form_timestamp).collection("ans").doc(ID).set({
               roll: ID,
             });
           }
           if (child.className == 'descType box') {
-            db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection("ans_1").doc(String(count1) + "_D").set({
+            db.collection('form').doc(form_timestamp).collection("ans").doc(ID).collection("ans_1").doc(String(count1) + "_D").set({
               ans: "ImDescMyAnsDoesntMatter",
             });
             count1++;
@@ -446,7 +448,7 @@
 
           //text type
           if (child.className == 'textType box') {
-            db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection("ans_1").doc(String(count1) + "_T").set({
+            db.collection('form').doc(form_timestamp).collection("ans").doc(ID).collection("ans_1").doc(String(count1) + "_T").set({
               ans: child.childNodes[5].value,
             });
             count1++;
@@ -459,7 +461,7 @@
               mcq_ans[i - 1] = child.childNodes[5].childNodes[1].childNodes[i].childNodes[0].checked;
 
             }
-            db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection("ans_1").doc(String(count1) + "_O").set({
+            db.collection('form').doc(form_timestamp).collection("ans").doc(ID).collection("ans_1").doc(String(count1) + "_O").set({
               ans: mcq_ans,
             });
             count1++;
@@ -467,7 +469,7 @@
 
 
           //upload file
-          let storageRef = firebase.storage().ref(title.innerHTML + "/" + ID + "/" + count1);
+          let storageRef = firebase.storage().ref(form_timestamp + "/" + ID + "/" + count1);
 
           if (child.className == 'uploadType box') {
             uploadCnt++
@@ -485,7 +487,7 @@
               }))
             }
 
-            db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection("ans_1").doc(String(count1) + "_U").set({
+            db.collection('form').doc(form_timestamp).collection("ans").doc(ID).collection("ans_1").doc(String(count1) + "_U").set({
               ans: filename,
 
             });
@@ -503,7 +505,7 @@
                 lans = child.childNodes[3].childNodes[i].childNodes[1].value;
               }
             }
-            db.collection('form').doc(title.innerHTML).collection("ans").doc(ID).collection("ans_1").doc(String(count1) + "_S").set({
+            db.collection('form').doc(form_timestamp).collection("ans").doc(ID).collection("ans_1").doc(String(count1) + "_S").set({
               ans: lans,
 
             });
