@@ -126,6 +126,12 @@ app.get('/view_response', (req, res) => {
   });
 })
 
+app.get('/view_queresponse', (req, res) => {
+  res.render('view_queresponse', {
+    style: 'newForm.css',
+  })
+})
+
 app.post('/', redirectHome, (req, res) => {
   const { name, password } = req.body;
   console.log(name, password);
