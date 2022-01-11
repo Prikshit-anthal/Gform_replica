@@ -1,4 +1,4 @@
-<div onload="doSetup()" style="width:100%;">
+<div onload="doSetup()" style="width:100%;padding:0;">
   <div class="container">
     <div class="box form_title">
       <div id="title"></div>
@@ -6,7 +6,10 @@
     </div>
 
     <form id="main">
-      <input type="number" min="1" class="ID" id="op" data-id="ok" placeholder="Roll Number" required>
+      <div class="box">
+         <input type="number" min="1" class="ID " id="op" data-id="ok" placeholder="Roll Number" required>
+      </div>
+     
     </form>
     <div class="loader">
 

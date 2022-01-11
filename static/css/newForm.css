@@ -4,7 +4,7 @@
   
   body {
     font-family: Arial, helvetica, sans-serif;
-    width:100%;
+    width:97vw;
   }
   
   .container{
@@ -24,7 +24,6 @@
   }
   .box {
     color: black;
-    padding: 10px;
     background-color:rgb(243, 245, 235);
     padding: 10px;
     padding-left:25px;
@@ -419,14 +418,7 @@
     cursor: pointer;
   }
   .ID{
-    background-color: rgb(243, 245, 235);
-    border-radius: 12px;
-    margin-top:10px;
-    padding-left:25px;
-    width: 94%;
-    height:40px;
-    margin-bottom: 0px;
-    color:rgb(82, 75, 75);
+ 
   }
   @media screen and (max-width: 1050px) {
   .container{
