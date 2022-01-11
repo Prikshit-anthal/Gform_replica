@@ -5,8 +5,18 @@
   body {
     font-family: Arial, helvetica, sans-serif;
     width:90vw;
+    
   }
-  
+  @media screen and (min-width: 500px){
+    body{
+      width: 95vw;
+    }
+  }
+  @media screen and (min-width: 1000px){
+    body{
+      width: 97vw;
+    }
+  }
   .container{
     padding-top: 50px;
     max-width:700px;
