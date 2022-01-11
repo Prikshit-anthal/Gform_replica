@@ -90,6 +90,14 @@ h1 {
     font-size: 1.3rem; 
     float:left; 
     color:black;
+    display: block;
+  width: 250px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+    
+  
+  
 }
 .response:hover{
     color:green;
@@ -133,7 +141,16 @@ h1 {
     padding-left:10px;
     padding-right:10px;
 }
-
+@media screen and (max-width: 650px) {
+.response{
+    width: 170px;
+}
+}
+@media screen and (max-width: 650px) {
+.response{
+    width: 130px;
+}
+}
 @media screen and (max-width: 500px) {
   .container{
     
@@ -162,6 +179,18 @@ a{
 .row .delete{
         padding-left: 6px;
     padding-right: 4px;
+}
+}
+
+@media screen and (max-width: 430px) {
+
+    .response{
+    width: 70px;
+}
+@media screen and (max-width: 365px) {
+
+    .response{
+    width: 60px;
 }
 }
 
@@ -215,3 +244,5 @@ a{
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+  

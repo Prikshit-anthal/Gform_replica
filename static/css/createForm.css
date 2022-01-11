@@ -62,11 +62,12 @@ input {
 }
 
 .onCreateMsg {
-  max-width: 600px;
-  width: 100%;
+  
+  width: 80%;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+  border-radius: 8px;
 }
 
 .onCreateMsg h1 {
