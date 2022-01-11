@@ -8,15 +8,15 @@
             <button class="toggle-response" type="submit" id="left" style="margin: 20px 20px;">
                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
             </button>
-        
-           
-         
-            
-         
-   <input type="number" id="currentRes" placeholder="1"/>
 
-            
-           
+
+
+
+
+            <input type="number" id="currentRes" placeholder="1" />
+
+
+
             <span style="font-size:23px;">/</span>
             <span id="res_no" style="font-size:23px;"></span>
             <button class="toggle-response" type="submit" id="right" style="margin: 20px 20px;">
@@ -73,9 +73,9 @@
     const main = document.querySelector("#main");
     var res_no = document.querySelector("#res_no")
     var currentRes = document.getElementById("currentRes");
-    
 
-    
+
+
 
     var roll_arr = []; //to save roll number
     var ans = [], ansid = []; //to save answer
@@ -101,8 +101,17 @@
         //console.log(video+" "+text);
         if (video != "null") {
             mainContainer.childNodes[count].childNodes[5].innerHTML = `
-            <iframe width="560" height="315" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            <iframe width="100%"" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
             mainContainer.childNodes[count].childNodes[5].childNodes[1].src = video;
+
+            new ResizeObserver(es => {
+
+
+                var height = es[0].target.clientWidth * 315 / 560;
+                //console.log(height);
+                es[0].target.childNodes[1].style.height = `${height}px`;
+
+            }).observe(mainContainer.childNodes[count].childNodes[5]);
         }
         if (text != "null") {
             mainContainer.childNodes[count].childNodes[5].innerHTML = text;
@@ -219,7 +228,7 @@
                 }
 
                 if (curr[len - 1] == 'S') {
-                    var id=doc.id;
+                    var id = doc.id;
                     var qs = doc.data().qs;
                     var lmin = doc.data().lmin;
                     var lmax = doc.data().lmax;
@@ -313,7 +322,7 @@
                     var lg = roll_arr.length;
                     if (response < lg - 1) {
                         response++;
-                        currentRes.value=response+1;
+                        currentRes.value = response + 1;
                         getanswer(response);
                     }
                     else {
@@ -325,7 +334,7 @@
                 (e) => {
                     if (response > 0) {
                         response--;
-                        currentRes.value=response+1;
+                        currentRes.value = response + 1;
                         getanswer(response);
                     }
                     else {
@@ -340,7 +349,7 @@
 
                 mainContainer.childNodes[1].childNodes[1].innerHTML = "Roll Number: " + roll_arr[response];
                 res_no.innerHTML = roll_arr.length;
-                
+
                 // res_no.innerHTML = response + 1;
                 count++;
 
@@ -373,7 +382,7 @@
                                 scaleans(count_ans, count);
                                 count_ans++, count++;
                             }
-                            if (curr[l - 1] == 'D'){
+                            if (curr[l - 1] == 'D') {
                                 count_ans++, count++;
                             }
                         }
@@ -385,12 +394,12 @@
 
             function updateValue(e) {
                 //log.textContent = e.target.value;
-                var val=parseInt(e.target.value)
+                var val = parseInt(e.target.value)
                 //console.log(val>roll_arr.length || val<1+" "+val)
-                if(val>roll_arr.length || val<1)
-                alert("enter valid range");
+                if (val > roll_arr.length || val < 1)
+                    alert("enter valid range");
                 else
-                getanswer(e.target.value - 1);
+                    getanswer(e.target.value - 1);
             }
 
         });
@@ -404,7 +413,7 @@
         op_ans = ans[count_ans];
 
         var indi = mainContainer.childNodes[count].childNodes[5].childNodes[1];
-       // console.log(mainContainer.childNodes[count].className)
+        // console.log(mainContainer.childNodes[count].className)
         for (var k = 0; k < op_ans.length; k++) {
             if (op_ans[k] == true) {
                 indi.childNodes[k + 1].childNodes[0].style.color = "blue";
@@ -425,30 +434,30 @@
             docs.forEach((doc) => {
                 if (doc.id == (num + "_U")) {
                     var filename = doc.data().ans;
-                    if(filename!="null"){
-                    
-                    let storageRef = firebase.storage().ref(form_timestamp  + "/" + roll_arr[response] + "/" + num);
-                    let this_ref = storageRef.child(filename)
-                    var pdf = mainContainer.childNodes[count].childNodes[5];
-                    this_ref.getDownloadURL()
-                        .then((url) => {
-                            pdf.setAttribute("href", url);
-                        }).catch(e => {
-                            console.log('error uploading' + e);
-                        })
-                }
-                
-                else{
-                    //console.log("im here")
-                    var pdf = mainContainer.childNodes[count].childNodes[5];
-                    pdf.setAttribute("alt", "no file uploaded")
-                    pdf.setAttribute("href", "$")
-                    pdf.innerHTML="no file uploaded"
-                    pdf.style.pointerEvents="none";
-                    //to stop a functionality
+                    if (filename != "null") {
+
+                        let storageRef = firebase.storage().ref(form_timestamp + "/" + roll_arr[response] + "/" + num);
+                        let this_ref = storageRef.child(filename)
+                        var pdf = mainContainer.childNodes[count].childNodes[5];
+                        this_ref.getDownloadURL()
+                            .then((url) => {
+                                pdf.setAttribute("href", url);
+                            }).catch(e => {
+                                console.log('error uploading' + e);
+                            })
+                    }
+
+                    else {
+                        //console.log("im here")
+                        var pdf = mainContainer.childNodes[count].childNodes[5];
+                        pdf.setAttribute("alt", "no file uploaded")
+                        pdf.setAttribute("href", "$")
+                        pdf.innerHTML = "no file uploaded"
+                        pdf.style.pointerEvents = "none";
+                        //to stop a functionality
 
 
-                }
+                    }
                 }
             })
         })
@@ -457,7 +466,7 @@
 
     function scaleans(count_ans, count) {
         var data = mainContainer.childNodes[count].childNodes[3];
-       // console.log(data.childNodes[i].childNodes[0].childNodes[0]);
+        // console.log(data.childNodes[i].childNodes[0].childNodes[0]);
         for (var i = 3; data.childNodes[i].childNodes[0].childNodes[0] != null; i++) {
             if (data.childNodes[i].childNodes[0].innerHTML == ans[count_ans]) {
                 data.childNodes[i].childNodes[0].style.color = "blue";
