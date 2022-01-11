@@ -479,8 +479,8 @@
     else {
 
       queId = that.getAttribute('data-id1');
-
-      window.location.href = "/view_queresponse?form_timestamp=" + form_timestamp + "&form_title=" + form_title + "&que_Id=" + queId;
+      var encrypted = btoa(form_title);
+      window.location.href = "/view_queresponse?form_timestamp=" + form_timestamp + "&form_title=" + encrypted + "&que_Id=" + queId;
 
     }
 
@@ -492,7 +492,8 @@
       alert("There are no responses for this form!")
     }
     else {
-      window.location.href = "/view_response?form_timestamp=" + form_timestamp + "&form_title=" + form_title;
+      var encrypted = btoa(form_title);
+      window.location.href = "/view_response?form_timestamp=" + form_timestamp + "&form_title=" + encrypted;
     }
   }
 
