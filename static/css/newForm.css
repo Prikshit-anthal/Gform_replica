@@ -4,7 +4,7 @@
   
   body {
     font-family: Arial, helvetica, sans-serif;
-    width:97vw;
+    width:90vw;
   }
   
   .container{
@@ -178,7 +178,7 @@
   color:white;
   }
   .question-control{
-    width: 250px;
+    width: 50%;
     height: 100px;
     margin-left:60%;
   }
@@ -417,9 +417,7 @@
   .toggle-response{
     cursor: pointer;
   }
-  .ID{
- 
-  }
+  
   @media screen and (max-width: 1050px) {
   .container{
     padding-top: 50px;
@@ -477,4 +475,7 @@ input[type=number]::-webkit-outer-spin-button {
     -moz-appearance: none;
     appearance: none;
     margin: 0; 
+}
+.attempted{
+  font-size: 0.8rem;
 }
