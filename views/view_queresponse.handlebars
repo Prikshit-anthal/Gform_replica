@@ -155,6 +155,10 @@
                 }
 
                 setTimeout(function () {
+                   var title=document.createElement("div")
+                    title.setAttribute('class','box')
+                    title.innerHTML="Graphical Visualization"
+                    mainContainer.append(title)
                     mychart = document.createElement("div");
                     mychart.setAttribute('id', 'piechart')
                     mainContainer.appendChild(mychart);
@@ -186,9 +190,9 @@
                         );
 
                         var options = {
-                            'title': 'Graphical Visualization',
-                            'width': 900,
-                            'height': 600
+                            
+                            'width': '50%',
+                            'height': '50%'
                         };
                         // Display the chart inside the <div> element with id="piechart"
                         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
@@ -309,6 +313,11 @@
 
                 setTimeout(function () {
 
+                   var title=document.createElement("div")
+                    title.setAttribute('class','box')
+                    title.innerHTML="Graphical Visualization"
+                    mainContainer.append(title)
+
                     mychart = document.createElement("div");
                     mychart.setAttribute('id', 'piechart')
                     mainContainer.appendChild(mychart);
@@ -337,9 +346,9 @@
                             );
 
                             var options = {
-                                'title': 'Graphical Visualization',
-                                'width': 900,
-                                'height': 600
+                                
+                                'width': '95%',
+                                'height': '95%'
                             };
                             // Display the chart inside the <div> element with id="piechart"
                             var chart = new google.visualization.PieChart(document.getElementById('piechart'));
