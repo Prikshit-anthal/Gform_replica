@@ -107,7 +107,7 @@ app.get('/form', redirectLogin, (req, res) => {
 })
 app.get('/newForm', redirectLogin, (req, res) => {
   res.render('createNew', {
-    style: 'newForm.css'
+    style: 'createForm.css'
   });
 })
 app.get('/userForm', (req, res) => {
