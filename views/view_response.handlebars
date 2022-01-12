@@ -435,7 +435,7 @@
             docs.forEach((doc) => {
                 if (doc.id == (num + "_U")) {
                     var filename = doc.data().ans;
-                    console.log(filename+" im up")
+                    //console.log(filename+" im up")
                     if (filename != "null") {
                        
 
@@ -452,11 +452,11 @@
                              pdf.innerHTML = "click to open"
                              pdf.style.pointerEvents = "auto";
 
-                             console.log("im not null " +mainContainer.childNodes[count].childNodes[5])
+                           //  console.log("im not null " +mainContainer.childNodes[count].childNodes[5])
                     }
 
                     else {
-                        console.log("im here")
+                       // console.log("im here")
                         var pdf = mainContainer.childNodes[count].childNodes[5];
                         pdf.setAttribute("alt", "no file uploaded")
                         pdf.setAttribute("href", "$")
