@@ -181,7 +181,13 @@
             if(screen.width>1000)
             alert("Copied the text: " + copyText);
             else
-            window.location.href=`${copyText}`
+            {
+               var anc= document.createElement("A");
+               anc.href=copyText;
+               anc.target="_blank";
+               anc.click();
+            }
+           // window.location.href=`${copyText}`
         })
     }  //end of render data function
 
