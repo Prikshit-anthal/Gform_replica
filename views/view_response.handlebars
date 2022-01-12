@@ -42,7 +42,8 @@
     const params = (new URL(document.location)).searchParams;
     var decrypted = params.get('form_timestamp');
     var form_timestamp = decrypted;
-    var decrypted_title = params.get('form_title');
+    var encrypted_title = params.get('form_title');
+    var decrypted_title=atob(encrypted_title);
     var form_title = decrypted_title;
 
     let mainContainer = document.getElementById("main");

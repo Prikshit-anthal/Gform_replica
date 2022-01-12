@@ -51,11 +51,14 @@
         </div>
       </div> --}}
     </form>
+      <div id="loader">
+
+        </div>
 
     <div class="result">
       <div class="create-button" id="submit_form">Create</div>
       
-        <div class="cancel-button" onclick="hi()">Cancel</div>
+        <div class="cancel-button" id="cancel_form" onclick="hi()">Cancel</div>
       
     </div>
   </div>
@@ -582,6 +585,15 @@ p.className="iframe";
 
 
         if (ch && previous_roll_check()) {
+
+          //console.log(document.getElementById('loader'))
+          document.getElementById('loader').style.display = "block";
+          document.getElementById('submit_form').disabled=true;
+          document.getElementById('submit_form').style.backgroundColor='gray'
+          document.getElementById('cancel_form').disabled=true;
+          document.getElementById('cancel_form').style.backgroundColor='gray'
+          
+           
           var timestamp = String(new Date().getTime());
           console.log(timestamp);
           db.collection('form').doc(timestamp).set({
