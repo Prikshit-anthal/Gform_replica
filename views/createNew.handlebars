@@ -38,7 +38,7 @@
             <span>Required</span>
             <input type="checkbox"  class="checkbox" />
             <label  class="toggle" onclick="fn(this)">
-              <label class="toggleHelper"></label>
+              <label class="toggleHelper" ></label>
             </label>
           </div>
           <div class="delete"><i class="fa fa-trash-o add" aria-hidden="true"></i></div>
@@ -91,7 +91,7 @@
   }
   function doSetup() {
     setupDeleteButtons();
-    setupToggles();
+    //setupToggles();
   }
 
   let getSiblings = function (e) {
@@ -180,8 +180,9 @@
     let toggles = document.getElementsByClassName("toggle");
     let toggleHelpers = document.getElementsByClassName("toggleHelper");
 
-    toggleHelpers[toggleHelpers.length - 1].addEventListener('click', (event) => {
-      event.stopPropagation();
+    toggleHelpers[toggleHelpers.length - 1].addEventListener('click', (e) => {
+      
+      e.stopPropagation();
     })
 
     toggles[toggles.length - 1].addEventListener('click', (e) => {
@@ -326,7 +327,7 @@ p.className="iframe";
           <span>Required</span>
           <input type="checkbox"  class="checkbox"  />
           <label   class="toggle" onclick="fn(this)" >
-          <label class="toggleHelper"></label>
+          <label class="toggleHelper" onclick="fn1(this)" ></label>
          
         </label>
         </div>
@@ -369,7 +370,7 @@ p.className="iframe";
         <span>Required</span>
          <input type="checkbox"  class="checkbox"  />
           <label   class="toggle" onclick="fn(this)" >
-        <label class="toggleHelper"></label>
+        <label class="toggleHelper" onclick="fn1(this)"></label>
         
       </label>
       </div>
@@ -417,7 +418,7 @@ p.className="iframe";
           <span>Required</span>
           <input type="checkbox"  class="checkbox" />
           <label  class="toggle" onclick="fn(this)">
-          <label class="toggleHelper"></label>
+          <label class="toggleHelper" onclick="fn1(this)" ></label>
         </label>
         </div>
 
@@ -493,7 +494,7 @@ p.className="iframe";
         <span>Required</span>
          <input type="checkbox"  class="checkbox"  />
           <label   class="toggle" onclick="fn(this)" >
-        <label class="toggleHelper"></label>
+        <label class="toggleHelper" onclick="fn1(this)" ></label>
         
       </label>
       </div>
@@ -526,7 +527,10 @@ p.className="iframe";
     this_reference.previousElementSibling.checked = !this_reference.previousElementSibling.checked;
   //  console.log(this_reference.previousElementSibling.checked );
   }
-
+  function fn1(this_ref){
+    //console.log(this_ref.parentNode);
+   this_ref.parentNode.click();
+  } 
   function null_check() {
     var text_feilds = document.getElementsByClassName("nullCheck");
     for (var i = 0; i < text_feilds.length; i++) {

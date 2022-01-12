@@ -213,6 +213,7 @@ textarea {
 }
 
 .toggleHelper {
+  cursor: pointer;
   content: '';
   position: absolute;
   width: 10px;
