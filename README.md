@@ -1,5 +1,5 @@
 # Requirements
-expressJs 
-express handlebars
-node
+expressJs \n
+express handlebars\n
+node\n
 Firebase as backend
