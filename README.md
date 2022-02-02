@@ -4,6 +4,6 @@ express handlebars
 node  
 Firebase as backend
 
-#CREDENTIALS  
+# CREDENTIALS  
 username:root  
 password:toor  
