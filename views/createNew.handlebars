@@ -616,8 +616,12 @@ p.className="iframe";
             console.log(document.getElementsByClassName("img_qs").length);
             if(child.className != 'scaleType box' && document.getElementsByClassName("img_qs").length!=0){
              //console.log(document.getElementsByClassName("img_qs"));
-            var file = document.getElementsByClassName("img_qs")[count - 1].files[0];
-           
+
+             var file = document.getElementsByClassName("img_qs");
+             if(file.files!=undefined){
+              
+              file=file.files[0];
+
             if (file != undefined) {
               image_name = file.name;
 
@@ -628,6 +632,8 @@ p.className="iframe";
                 console.log('error uploading' + e);
               }))
             }
+             } 
+
             }
             //desc type
             if(child.className == 'descType box')
